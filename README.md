@@ -2,6 +2,12 @@
 
 Bienvenido al repositorio del proyecto de automatización de pruebas de la aplicación GHOST-TSDC.
 
+## Integrantes:
+- [David Ruiz](dr.villota@uniandes.edu.co)
+- [Juan Jose Peña](jj.penad@uniandes.edu.co)
+- [Sebastian Moreno](sg.moreno1543@uniandes.edu.co)
+- [Alvaro Salazar](ah.salazar@uniandes.edu.co)
+
 > Wiki proyecto: [https://github.com/drvillota/GHOST-TSDC/wiki](https://github.com/drvillota/GHOST-TSDC/wiki) 
 
 > Reporte de incidentes: [https://github.com/drvillota/GHOST-TSDC/issues](https://github.com/drvillota/GHOST-TSDC/issues) 
