@@ -23,7 +23,7 @@ Bienvenido al repositorio del proyecto de automatización de pruebas de la aplic
  ## Instrucciones de ejecucion
  ### Ejecucion de Kraken
  1. Para la ejecucion de las pruebas de Kraken primero debe tener instalada la herramienta kranken-node.
- 2. Recuerde ejecutar npm install
+ 2. Recuerde ejecutar `npm install`
  3. Dirijase a la carpeta kraken/features y mueva los archivos features a una carpeta temporal en su computador.
  4. Copie el archivo .feature seleccionado a la carpeta de instalacion de kraken. Ejemplo: `/kraken-node/features`
  5. Copie ahora las definiciones de step que estan en la carpeta `kraken/features/web/step_definitions` a la carpeta de instalcion de kraken: Ejemplo: `/kraken-node/features/web/step_definitions`
