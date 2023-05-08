@@ -8,6 +8,8 @@ Bienvenido al repositorio del proyecto de automatización de pruebas de la aplic
 - [Sebastian Moreno <sg.moreno1543@uniandes.edu.co>](sg.moreno1543@uniandes.edu.co)
 - [Alvaro Salazar <ah.salazar@uniandes.edu.co>](ah.salazar@uniandes.edu.co)
 
+## Wiki y Reporte de incidencias
+
 > Wiki proyecto: [https://github.com/drvillota/GHOST-TSDC/wiki](https://github.com/drvillota/GHOST-TSDC/wiki) 
 
 > Reporte de incidentes: [https://github.com/drvillota/GHOST-TSDC/issues](https://github.com/drvillota/GHOST-TSDC/issues) 
