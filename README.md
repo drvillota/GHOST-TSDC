@@ -35,11 +35,13 @@ Kraken tiene algunas limitaciones en cuanto a la ejecución de features, lo que 
  
  
  ### Ejecucion de Cypress
- 1.
- 2. 
- 3.
+ 1. Clone o descargue la aplicacion Cypress
+ 2. Recuerde ejecutar `npm install` y dirijase a la carpeta `cypress/e2e`
+ 3. Copie los archivos `.spec.cy.js` dentro de la carpeta `e2e` de un proyecto Cypress.
+ 4. Realice la ejecucion con `npx cypress run` o con `.\node_modules\.bin\cypress.cmd run`
  
- Distribucion de escenarios de prueba
+ 
+ ## Distribucion de escenarios de prueba
  
  | Funcionalidad  	|  Escenario/caso 	|  Tester Responsable 	|
 |---	|---	|---	|
