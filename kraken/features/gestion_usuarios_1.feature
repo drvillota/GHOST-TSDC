@@ -43,4 +43,3 @@ Scenario: 3. Como usuario admin puedo reactivar (un-suspend) otro usuario
   # Validation
   Then I click on staff link
   And I verify that the user is unsuspended
-

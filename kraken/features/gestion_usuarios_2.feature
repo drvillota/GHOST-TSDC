@@ -48,4 +48,3 @@ Scenario: 4. Como usuario admin puedo cambiar la constraseña otro usuario
   
   # Validate that the password was changed
   Then I verify that the password was changed
-  
