@@ -3,7 +3,7 @@ const { By, Given, When, Then } = require("@cucumber/cucumber");
 const assert = require("assert");
 
 When("I click on design link", async function () {
-    await this.driver.url("http://test.denkitronik.com:2368/ghost/#/settings/design");
+    await this.driver.url("http://test.denkitronik.com:3002/ghost/#/settings/navigation");
 });
 
 //Encontrar el primer input que encuentre que tenga un placeholder con el texto "Label"
@@ -18,7 +18,7 @@ When("I update a design label: {kraken-string}", async function (label) {
     return await input.setValue(label);
 });
 
-//Click en el botón que tiene un atributo data-ember-action-145="145"
+//Click en el botón con el texto 'Save'
 When("I click on save design button", async function () {
     let saveButton = await this.driver.$("//button[contains(span/text(),'Save')]");
     return await saveButton.click();
