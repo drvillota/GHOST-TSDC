@@ -18,7 +18,7 @@ Bienvenido al repositorio del proyecto de automatización de pruebas de la aplic
 ## Semana 6
 VRT
 - Enlace al video
-[Video](https://uniandes-my.sharepoint.com/:f:/g/personal/jj_penad_uniandes_edu_co/EsCT8oGy2W5Bts1x9FZ1LR0BFF_0GIME1U-_v5piKDaFtA?e=SY6jOo)
+[Video](https://uniandes-my.sharepoint.com/:v:/r/personal/jj_penad_uniandes_edu_co/Documents/ANDES/MISO/Pruebas%20Automatizadas/Entrega%20Semana6/entrega6.mp4?csf=1&web=1&e=QXe2yB)
 
 
 
