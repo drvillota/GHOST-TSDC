@@ -37,7 +37,7 @@ VRT
 |   	|   Como usuario puedo revertir a draft una pagina	|   Juan Jose Peña	|
 
 
-Pros y contras: Resemble y Backstop
+Pros y contras: [Resemble y Backstop](https://github.com/drvillota/GHOST-TSDC/wiki/Analisis-de-Herramientas-Semana-6)
 
 Incidentes de regresión visual se pueden encontrar en los issues de este repositorio
 
