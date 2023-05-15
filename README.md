@@ -22,7 +22,20 @@ VRT
 
 
 
-- Funcionalidades
+- Funcionalidades implementadas para la nueva version de Ghost
+
+ | Funcionalidad  	|  Escenario/caso 	|  Tester Responsable 	|
+|---	|---	|---	|
+|  Gestión de usuarios 	|  Como usuario admin puedo actualizar la informacion un usuario 	|    Alvaro Salazar	|
+|   	|  Como usuario admin puedo suspender otro usuario 	|  Alvaro Salazar 	|
+|   	|   Como usuario admin puedo reactivar (un-suspend) otro usuario	|  Alvaro Salazar 	|
+|   	|   Como usuario admin puedo cambiar la constraseña otro usuario	|   Alvaro Salazar	|
+|  Gestion de diseño  	|   Como usuario puedo crear un item de navegacion	|  Alvaro Salazar 	|
+|  Gestion de paginas 	|   Como usuario puedo publicar una pagina	|  Juan Jose Peña 	|
+|   	| Como usuario crear una pagina programada  	|  Juan Jose Peña 	|
+|   	|   Como usuario puedo actualizar una pagina	|   Juan Jose Peña	|
+|   	|   Como usuario puedo revertir a draft una pagina	|   Juan Jose Peña	|
+
 
 Pros y contras: Resemble y Backstop
 
