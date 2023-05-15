@@ -18,7 +18,7 @@ Bienvenido al repositorio del proyecto de automatización de pruebas de la aplic
 ## Semana 6
 VRT
 - Enlace al video
-[Video]([/guides/content/editing-an-existing-page](https://uniandes-my.sharepoint.com/:f:/g/personal/jj_penad_uniandes_edu_co/EsCT8oGy2W5Bts1x9FZ1LR0BFF_0GIME1U-_v5piKDaFtA?e=SY6jOo)
+[Video](https://uniandes-my.sharepoint.com/:f:/g/personal/jj_penad_uniandes_edu_co/EsCT8oGy2W5Bts1x9FZ1LR0BFF_0GIME1U-_v5piKDaFtA?e=SY6jOo)
 
 
 
