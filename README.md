@@ -14,8 +14,49 @@ Bienvenido al repositorio del proyecto de automatización de pruebas de la aplic
 
 > Reporte de incidentes: [https://github.com/drvillota/GHOST-TSDC/issues](https://github.com/drvillota/GHOST-TSDC/issues) 
 
+
+
 # Pruebas E2E
- 
+## Semana 6
+VRT
+- Enlace al video
+
+- Funcionalidades
+
+Pros y contras: Resemble y Backstop
+
+Incidentes de regresión visual se pueden encontrar en los issues de este repositorio
+
+Cypress
+
+### Ejecucion de Cypress
+ 1. Clone o descargue la aplicacion Cypress
+ 2. Recuerde ejecutar `npm install` y dirijase a la carpeta `cypress/e2e`
+ 3. Copie los archivos `.spec.cy.js` dentro de la carpeta `e2e` de un proyecto Cypress.
+ 4. Realice la ejecucion con `npx cypress run` o con `.\node_modules\.bin\cypress.cmd run`
+
+Kraken
+
+ ### Ejecucion de Kraken
+ 1. Para la ejecucion de las pruebas de Kraken primero debe tener instalada la herramienta kranken-node.
+ 2. Recuerde ejecutar `npm install`
+ 3. Dirijase a la carpeta kraken/features y mueva los archivos features a una carpeta temporal en su computador.
+ 4. Copie el archivo .feature seleccionado a la carpeta de instalacion de kraken. Ejemplo: `/kraken-node/features`
+ 5. Copie ahora las definiciones de step que estan en la carpeta `kraken/features/web/step_definitions` a la carpeta de instalacion de kraken: Ejemplo: `/kraken-node/features/web/step_definitions`
+ 6. Ingrese a la carpeta de kraken: `cd kraken_node`
+ 7. Ejecute la prueba: Ejemplo: `.\node_modules\.bin\kraken-node.cmd run`
+
+Ejecución VRT
+
+Instrucciones para las pruebas
+Ubicarse en la carpeta vrt_ypress
+Ejecutar el comando
+```npm install```
+Posteriormente:
+```node index.js```
+Se obtendra una carpeta ```./results```  con las comparaciones de las imagenes de cada paso
+
+
  ## Semana 5
 -  [Pros & Cons de Kraken](https://github.com/alvaro-salazar/-reporte-incidencias-ghost/wiki/Comparativa-Kraken)
 -  [Pros & Cons de Cypress](https://github.com/alvaro-salazar/-reporte-incidencias-ghost/wiki/Comparativa-Cypress)
