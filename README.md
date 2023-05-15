@@ -21,6 +21,7 @@ Bienvenido al repositorio del proyecto de automatización de pruebas de la aplic
 VRT
 - Enlace al video
 
+[Enlace]([https://link-url-here.org](https://uniandes-my.sharepoint.com/:f:/g/personal/jj_penad_uniandes_edu_co/EsCT8oGy2W5Bts1x9FZ1LR0BFF_0GIME1U-_v5piKDaFtA?e=SY6jOo))
 - Funcionalidades
 
 Pros y contras: Resemble y Backstop
