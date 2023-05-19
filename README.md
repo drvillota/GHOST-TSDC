@@ -22,40 +22,47 @@ En esta semana se utilizarán tres estrategias de generacion de datos: A Priori,
 Para el caso de la generacion A priori y pseudo aleatoria se realizara por medio de la API de Mockaroo. Debido a las restricciones de los navegadores para recibir informacion de origen cruzado (CORS) no se pueden recibir la respuesta de dicha API sin el uso de un proxy cors.
 Se implementó un script para el uso de un proxy cors llamado `http-proxy-middleware` incluido en este proyecto.
 
-Instrucciones de instalacion y ejecucion:
+Se crearon APIs para las entidades Staff (Members) Pages y Posts (Posts) y Tags. Se agrego uno adicional para el manejo del login y contraseña.
+[Para Staff Members](https://my.api.mockaroo.com/login.json?key=af4f0e30)
+[Para Posts y Pages](https://my.api.mockaroo.com/posts_schema.json?key=af4f0e30)
+[Para Tags](https://my.api.mockaroo.com/tags_schema.json?key=af4f0e30)
+[Para Login](https://my.api.mockaroo.com/login.json?key=af4f0e30)
+
+ 
+## Instrucciones de instalacion y ejecucion:
 ### 1. Instalacion de las herramientas
- 1. Clone este repositorio con `git clone https://github.com/drvillota/GHOST-TSDC.git`
- 2. Ingrese a la carpeta clonada: `cd GHOST-TSDC`
- 3. Ingrese a la carpeta de cypress: `cd cypress`
- 4. Recuerde descargar las dependencias de cypress ejecutando: `npm install`
- 5. Ahora ingrese a la carpeta del proxy cors: `cd ../http-proxy-middleware`
- 6. Ahora instale las dependencias del proxy: `npm install`
+ 1. Clone este repositorio con `git clone https://github.com/drvillota/GHOST-TSDC.git`.
+ 2. Ingrese a la carpeta clonada: `cd GHOST-TSDC`.
+ 3. Ingrese a la carpeta de cypress: `cd cypress`.
+ 4. Recuerde descargar las dependencias de cypress ejecutando: `npm install`.
+ 5. Ahora ingrese a la carpeta del proxy cors: `cd ../http-proxy-middleware`.
+ 6. Ahora instale las dependencias del proxy: `npm install`.
 
 ### 2. Ejecucion del proxy CORS para Mockaroo
  1. Verifique que continua en la carpeta de `http-proxy-middleware`, sino dirijase a ella.
- 2. Ejecute el proxy con: `node .\index.js`
+ 2. Ejecute el proxy con: `node .\index.js`.
  3. Mantenga esta terminal abierta mientras se realiza la prueba. No cierre esta ventana ni detenga la aplicacion o no podrá recibir los datos provenientes de la API de Mockaroo.
 
 ### 3. Ejecucion de las pruebas en Cypress
- 1. Abra otra terminal y dirijase a la carpeta donde clonó el proyecto `cd GHOST-TSDC`
- 2. Estando dentro de la carpeta clonada dirijase a la carpeta de cypress: `cd cypress`
- 4. Ejecute Cypress: `npx cypress open`
- 5. En la ventana emergente con el icono **CY** (Cypress) seleccione `E2E Testing`
- 6. Ahora seleccione el navegador a usar en las pruebas, en nuestro caso `Chrome`
- 7. Presione el boton `Start E2E Testing in Chrome`
+ 1. Abra otra terminal y dirijase a la carpeta donde clonó el proyecto `cd GHOST-TSDC`.
+ 2. Estando dentro de la carpeta clonada dirijase a la carpeta de cypress: `cd cypress`.
+ 4. Ejecute Cypress: `npx cypress open`.
+ 5. En la ventana emergente con el icono **CY** (Cypress) seleccione `E2E Testing`.
+ 6. Ahora seleccione el navegador a usar en las pruebas, en nuestro caso `Chrome`.
+ 7. Presione el boton `Start E2E Testing in Chrome`.
  8. En el Navegador Chrome emergente de clic en el enlace `Specs` del menu lateral izquierdo.
  9. Dirijase a la carpeta `cypress/e2e` y luego a `generacion-datos\ghost-3.41.1`
- 10. Seleccione alguno de los archivos `*.spec.cy.js` para iniciar las pruebas
- 11. Verifique en el panel lateral izquierdo la ejecucion de las pruebas
- 12. Cierre la aplicacion Cypress en la terminal presionando `Control-C`
+ 10. Seleccione alguno de los archivos `*.spec.cy.js` para iniciar las pruebas.
+ 11. Verifique en el panel lateral izquierdo la ejecucion de las pruebas.
+ 12. Cierre la aplicacion Cypress con `file->exit` o en la terminal presionando `Control-C.`
  13. Por ultimo cierre la terminal donde esta ejecutandose `http-proxy-middleware`, o en su defecto presione `Control-C` para detener el proxy.
 
 ### Opcional: Revision de los screenshots de las pruebas
- 1. Estando aun dentro de la carpeta de Cypress, ingrese a la carpeta screenshots: `cd cypress\screenshots`
+ 1. Estando aun dentro de la carpeta de Cypress, ingrese a la carpeta screenshots: `cd cypress\screenshots`.
  2. Liste las carpetas con `ls` o con `dir`, alli observará las carpetas segun la estrategia de generacion de datos (apriori, aleatoria, pseudoaleatoria).
- 3. Ahora ingrese a alguna de las carpetas, por ejemplo apriori: `cd apriori`
- 4. Ahora liste las subcarpetas ya que estan segun la hora y fecha en que se realizaron: `ls` `dir`
- 5. Ahora ingrese a la subcarpeta deseada con `cd subcarpeta` y liste los screenshots contenidos con `ls`o `dir` segun el sistema utilizado (Windows, Linux, MacOS)
+ 3. Ahora ingrese a alguna de las carpetas, por ejemplo apriori: `cd apriori`.
+ 4. Ahora liste las subcarpetas ya que estan segun la hora y fecha en que se realizaron: `ls` `dir`.
+ 5. Ahora ingrese a la subcarpeta deseada con `cd subcarpeta` y liste los screenshots contenidos con `ls`o `dir` segun el sistema utilizado (Windows, Linux, MacOS).
 
 
 # Pruebas E2E
