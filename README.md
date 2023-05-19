@@ -23,7 +23,7 @@ Para el caso de la generacion A priori y pseudo aleatoria se realizara por medio
 Se implementó un script para el uso de un proxy cors llamado `http-proxy-middleware` incluido en este proyecto.
 
 Se crearon APIs para las entidades Staff (Members) Pages y Posts (Posts) y Tags. Se agrego uno adicional para el manejo del login y contraseña.
-- [Para Staff Members](https://my.api.mockaroo.com/login.json?key=af4f0e30)
+- [Para Staff Members](https://my.api.mockaroo.com/members_schema.json?key=af4f0e30)
 - [Para Posts y Pages](https://my.api.mockaroo.com/posts_schema.json?key=af4f0e30)
 - [Para Tags](https://my.api.mockaroo.com/tags_schema.json?key=af4f0e30)
 [Para Login](https://my.api.mockaroo.com/login.json?key=af4f0e30)
