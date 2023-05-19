@@ -23,9 +23,9 @@ Para el caso de la generacion A priori y pseudo aleatoria se realizara por medio
 Se implementó un script para el uso de un proxy cors llamado `http-proxy-middleware` incluido en este proyecto.
 
 Se crearon APIs para las entidades Staff (Members) Pages y Posts (Posts) y Tags. Se agrego uno adicional para el manejo del login y contraseña.
-[Para Staff Members](https://my.api.mockaroo.com/login.json?key=af4f0e30)
-[Para Posts y Pages](https://my.api.mockaroo.com/posts_schema.json?key=af4f0e30)
-[Para Tags](https://my.api.mockaroo.com/tags_schema.json?key=af4f0e30)
+- [Para Staff Members](https://my.api.mockaroo.com/login.json?key=af4f0e30)
+- [Para Posts y Pages](https://my.api.mockaroo.com/posts_schema.json?key=af4f0e30)
+- [Para Tags](https://my.api.mockaroo.com/tags_schema.json?key=af4f0e30)
 [Para Login](https://my.api.mockaroo.com/login.json?key=af4f0e30)
 
  
@@ -64,6 +64,48 @@ Se crearon APIs para las entidades Staff (Members) Pages y Posts (Posts) y Tags.
  4. Ahora liste las subcarpetas ya que estan segun la hora y fecha en que se realizaron: `ls` `dir`.
  5. Ahora ingrese a la subcarpeta deseada con `cd subcarpeta` y liste los screenshots contenidos con `ls`o `dir` segun el sistema utilizado (Windows, Linux, MacOS).
 
+### Listado de escenarios
+
+1. Ingresar Random email & password
+2. Ingresar Valid email & Random password
+3. Ingresar Random email & Naughty password
+4. Ingresar Random email & Empty password
+5. Ingresar Empty email & random password
+6. Ingresar Valid email & invalid kanji password
+7. Ingresar Naughty email & random password
+8. Ingresar Empty email & Naughty password
+9. Ingresar Valid email & Naughty password
+10. Ingresar Naughty email & Valid password
+11. Crear Post con titulo aleatorio
+12. Crear Post con titulo naughty
+13. Crear Post con titulo valido
+14. Crear Post con titulo de mas de 255 caracteres
+15. Crear Post con excerpt mayor a 300 caracteres
+16. Crear Post con titulo URL
+17. Crear Page con titulo aleatorio
+18. Crear Page con titulo naughty
+19. Crear Page con titulo valido
+20. Crear Page con titulo de mas de 255 caracteres
+21. Crear Page con excerpt mayor a 300 caracteres
+22. Crear Page con titulo URL
+23. Crear Tag name aleatorio
+24. Crear Tag con name naughty
+25. Crear Tag con name valido
+26. Crear Tag con name URL
+27. Crear Tag con name email
+28. Crear Tag con name Date
+29. Crear Tag con texto mayor a 191 caracteres
+30. Crear Tag con name valido y Description mayor a 500 caracteres
+31. Crear Tag con name valido y Description naughty
+32. Crear Tag con Slug naughty 
+33. Crear Tag con Slug texto con espacios
+34. Crear Tag con Slug extenso
+35. Crear Tag con Slug valido
+36. Crear Staff user con email aleatorio valido
+37. Crear Staff user con email naughty
+38. Crear Staff user con email extenso
+39. Crear Staff user con email duplicado
+40. Crear Staff user con email URL
 
 # Pruebas E2E
 ## Semana 6
