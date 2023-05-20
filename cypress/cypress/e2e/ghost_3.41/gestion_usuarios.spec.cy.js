@@ -12,11 +12,11 @@ describe("Gestion de usuarios", () => {
   beforeEach(() => {
     // Realizar el inicio de sesión antes de cada escenario
     cy.visit(host+"/ghost/#/signin");
-    cy.get("#ember8").clear().type("lasherone@hotmail.com");
-    cy.get("#ember10").clear().type("Pruebas12345");
+    cy.get('input[name="identification"]').clear().type("lasherone@hotmail.com");
+    cy.get('input[name="password"]').clear().type("Pruebas12345");
     //Screenshot de inicio de sesion de usuario admin
     cy.screenshot("ghost-3.41.1/usuarios/inicio_sesion_admin");  
-    cy.get("#ember12").click();
+    cy.get('button[type="submit"]').click();
   });
 
   describe("Como usuario admin puedo actualizar la información de un usuario", () => {
