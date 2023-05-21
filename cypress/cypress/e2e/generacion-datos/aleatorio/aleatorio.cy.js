@@ -41,7 +41,7 @@ context("Pruebas a priori de Ghost 3.41.1 de tipo Login", () => {
     cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
       .contains("There is no user with that email address.") // Verifica que contenga el texto "Unknown error"
       .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`random/${timestamp}/scn1`);
+    cy.screenshot(`aleatorio/${timestamp}/scn1`);
   });
 
   // Escenario 2: Inicio de sesión con datos inválidos - Valid email y random password
@@ -64,7 +64,7 @@ context("Pruebas a priori de Ghost 3.41.1 de tipo Login", () => {
         );
       })
       .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`random/${timestamp}/scn2`);
+    cy.screenshot(`aleatorio/${timestamp}/scn2`);
   });
 
   // Escenario 3: Inicio de sesión con datos inválidos - Random email y naughty password
@@ -81,7 +81,7 @@ context("Pruebas a priori de Ghost 3.41.1 de tipo Login", () => {
     cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
       .contains("There is no user with that email address.") // Verifica que contenga el texto "Unknown error"
       .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`apriori/${timestamp}/scn3`);
+    cy.screenshot(`aleatorio/${timestamp}/scn3`);
   });
 
   // Escenario 4: Inicio de sesión con datos inválidos - Random email y empty password
@@ -96,7 +96,7 @@ context("Pruebas a priori de Ghost 3.41.1 de tipo Login", () => {
     cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
       .contains("Please fill out the form to sign in.") // Verifica que contenga el texto "Please fill out the form to sign in."
       .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`random/${timestamp}/scn4`);
+    cy.screenshot(`aleatorio/${timestamp}/scn4`);
   });
 
   // Escenario 5: Inicio de sesión con datos inválidos - Empty email y random password
@@ -110,7 +110,7 @@ context("Pruebas a priori de Ghost 3.41.1 de tipo Login", () => {
     cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
       .contains("Please fill out the form to sign in.") // Verifica que contenga el texto "Please fill out the form to sign in."
       .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`random/${timestamp}/scn5`);
+    cy.screenshot(`aleatorio/${timestamp}/scn5`);
   });
 
   // Escenario 6: Inicio de sesión con datos inválidos - Valid email & invalid kanji password
@@ -132,7 +132,7 @@ context("Pruebas a priori de Ghost 3.41.1 de tipo Login", () => {
         );
       })
       .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`random/${timestamp}/scn6`);
+    cy.screenshot(`aleatorio/${timestamp}/scn6`);
   });
 
   // Escenario 7: Inicio de sesión con datos inválidos - Naughty email & random password
@@ -149,7 +149,7 @@ context("Pruebas a priori de Ghost 3.41.1 de tipo Login", () => {
     cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
       .contains("Please fill out the form to sign in.") // Verifica que contenga el texto "Please fill out the form to sign in."
       .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`apriori/${timestamp}/scn7`);
+    cy.screenshot(`aleatorio/${timestamp}/scn7`);
   });
 
   // Escenario 8: Inicio de sesión con datos inválidos - Empty email & Naughty password
@@ -162,7 +162,7 @@ context("Pruebas a priori de Ghost 3.41.1 de tipo Login", () => {
     cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
       .contains("Please fill out the form to sign in.") // Verifica que contenga el texto "Please fill out the form to sign in."
       .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`apriori/${timestamp}/scn8`);
+    cy.screenshot(`aleatorio/${timestamp}/scn8`);
   });
 
   // Escenario 9: Inicio de sesión con datos inválidos - Valid email & Naughty password
@@ -184,7 +184,7 @@ context("Pruebas a priori de Ghost 3.41.1 de tipo Login", () => {
         );
       })
       .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`apriori/${timestamp}/scn9`);
+    cy.screenshot(`aleatorio/${timestamp}/scn9`);
   });
 
   // Escenario 10: Inicio de sesión con datos inválidos - Naughty email & Valid password
@@ -201,7 +201,7 @@ context("Pruebas a priori de Ghost 3.41.1 de tipo Login", () => {
     cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
       .contains("Please fill out the form to sign in.") // Verifica que contenga el texto "Please fill out the form to sign in."
       .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`apriori/${timestamp}/scn10`);
+    cy.screenshot(`aleatorio/${timestamp}/scn10`);
   });
 });
 
@@ -255,7 +255,7 @@ context("Pruebas aleatorias de Ghost 3.41.1 de Posts y Pages", () => {
     cy.get("span.fw4.midgrey-l2 div").should(($div) => {
       expect($div.text().trim()).to.match(/(?:Saving\.\.\.|Draft)\s*/g);
     });
-    cy.screenshot(`random/${timestamp}/scn11`);
+    cy.screenshot(`aleatorio/${timestamp}/scn11`);
   });
 
   it("12. Crear Post con titulo naughty", () => {
@@ -282,7 +282,7 @@ context("Pruebas aleatorias de Ghost 3.41.1 de Posts y Pages", () => {
     cy.get("span.fw4.midgrey-l2 div").should(($div) => {
       expect($div.text().trim()).to.match(/(?:Saving\.\.\.|Draft)\s*/g);
     });
-    cy.screenshot(`random/${timestamp}/scn12`);
+    cy.screenshot(`aleatorio/${timestamp}/scn12`);
   });
 
   it("13. Crear Post con titulo caracteres chinos", () => {
@@ -311,7 +311,7 @@ context("Pruebas aleatorias de Ghost 3.41.1 de Posts y Pages", () => {
     cy.get("span.fw4.midgrey-l2 div").should(($div) => {
       expect($div.text().trim()).to.match(/(?:Saving\.\.\.|Draft)\s*/g);
     });
-    cy.screenshot(`random/${timestamp}/scn13`);
+    cy.screenshot(`aleatorio/${timestamp}/scn13`);
   });
 
   it("14. Crear Post con titulo de mas de 255 caracteres", () => {
@@ -342,7 +342,7 @@ context("Pruebas aleatorias de Ghost 3.41.1 de Posts y Pages", () => {
       const text = $div.text().trim();
       expect(text.includes("New")).to.be.true;
     });
-    cy.screenshot(`random/${timestamp}/scn14`);
+    cy.screenshot(`aleatorio/${timestamp}/scn14`);
   });
 
   it("15. Crear Post con excerpt mayor a 300 caracteres", () => {
@@ -393,7 +393,7 @@ context("Pruebas aleatorias de Ghost 3.41.1 de Posts y Pages", () => {
           "Excerpt cannot be longer than 300 characters."
         );
       });
-    cy.screenshot(`random/${timestamp}/scn15`);
+    cy.screenshot(`aleatorio/${timestamp}/scn15`);
   });
 
   it("16. Crear Post con titulo URL", () => {
@@ -419,7 +419,7 @@ context("Pruebas aleatorias de Ghost 3.41.1 de Posts y Pages", () => {
     cy.get("span.fw4.midgrey-l2 div").should(($div) => {
       expect($div.text().trim()).to.match(/(?:Saving\.\.\.|Draft)\s*/g);
     });
-    cy.screenshot(`random/${timestamp}/scn16`);
+    cy.screenshot(`aleatorio/${timestamp}/scn16`);
   });
 
   it("17. Crear Page con titulo aleatorio", () => {
@@ -445,7 +445,7 @@ context("Pruebas aleatorias de Ghost 3.41.1 de Posts y Pages", () => {
     cy.get("span.fw4.midgrey-l2 div").should(($div) => {
       expect($div.text().trim()).to.match(/(?:Saving\.\.\.|Draft|New)\s*/g);
     });
-    cy.screenshot(`random/${timestamp}/scn17`);
+    cy.screenshot(`aleatorio/${timestamp}/scn17`);
   });
 
   it("18. Crear Page con titulo naughty", () => {
@@ -472,7 +472,7 @@ context("Pruebas aleatorias de Ghost 3.41.1 de Posts y Pages", () => {
     cy.get("span.fw4.midgrey-l2 div").should(($div) => {
       expect($div.text().trim()).to.match(/(?:Saving\.\.\.|Draft)\s*/g);
     });
-    cy.screenshot(`random/${timestamp}/scn18`);
+    cy.screenshot(`aleatorio/${timestamp}/scn18`);
   });
 
   it("19. Crear Page con titulo caracteres chinos", () => {
@@ -498,7 +498,7 @@ context("Pruebas aleatorias de Ghost 3.41.1 de Posts y Pages", () => {
     cy.get("span.fw4.midgrey-l2 div").should(($div) => {
       expect($div.text().trim()).to.match(/(?:Saving\.\.\.|Draft)\s*/g);
     });
-    cy.screenshot(`random/${timestamp}/scn19`);
+    cy.screenshot(`aleatorio/${timestamp}/scn19`);
   });
 
   it("20. Crear Page con titulo de mas de 255 caracteres", () => {
@@ -528,6 +528,6 @@ context("Pruebas aleatorias de Ghost 3.41.1 de Posts y Pages", () => {
       const text = $div.text().trim();
       expect(text.includes("New")).to.be.true;
     });
-    cy.screenshot(`apriori/${timestamp}/scn20`);
+    cy.screenshot(`aleatorio/${timestamp}/scn20`);
   });
 });
