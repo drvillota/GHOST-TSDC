@@ -5,242 +5,13 @@ const proxyMockarooUrl = "http://localhost:3000"; // URL del proxy CORS apuntand
 const apiMockarooKey = "?key=af4f0e30"; // API Key de Mockaroo
 var dataPool; // Variable para almacenar el pool de datos de las entidades provenientes de Mockaroo (JSON)
 var fileName; // Nombre del archivo que contiene los datos de Mockaroo
-var loginData;// Variable para almacenar los datos de login y clave válidos
+var loginData; // Variable para almacenar los datos de login y clave válidos
 const timestamp = new Date().toISOString().replace(/[:.]/g, "-"); // Genera una marca de tiempo única
 
 /**
- * Pruebas a priori de Ghost 3.41.1 de tipo Login
+ * Pruebas a priori de Ghost 3.41.1 de Tags y Staff
  */
-context("Pruebas a priori de Ghost 3.41.1 de tipo Login", () => {
-  // Generar los datos apriori con Mockaroo y guardarlos en un data pool
-  before(() => {
-    
-    fileName = `data_${timestamp}.json`; // Agrega la marca de tiempo al nombre del archivo
-
-    // Generar los datos apriori con Mockaroo de la entidad User y guardarlos en un data pool
-    cy.request(
-      "GET",
-      proxyMockarooUrl + apiUser + apiMockarooKey
-    ).then((response) => {
-      expect(response.status).to.eq(200); // Verificar que la respuesta sea exitosa
-      // Acceder a los datos del JSON
-      const dataPool = JSON.stringify(response.body); // Convierte la respuesta en string JSON
-      cy.writeFile(`cypress/fixtures/data_pool/login/${fileName}`, dataPool); // Guarda los datos en un archivo
-      cy.log("Se recibio de Mockaroo: " + dataPool);
-    });
-
-    // Leer los datos del data pool de Mockaroo y guardarlos en una variable (jsonData)
-    cy.readFile(`cypress/fixtures/data_pool/login/${fileName}`).then(
-      (fileContent) => {
-        dataPool = fileContent;
-        cy.log(fileContent); // Imprimir el contenido del archivo en la consola de Cypress
-      }
-    );
-
-    // Leer los datos del data pool de login y clave válidos
-    cy.readFile("cypress/fixtures/data_pool/login_clave.json").then(
-      (fileContent) => {
-        loginData = fileContent;
-        cy.log("Valid login" + fileContent); // Imprimir el contenido del archivo en la consola de Cypress
-      }
-    );
-  });
-
-  // Ingresar a la página de inicio de sesión de Ghost
-  beforeEach(() => {
-    cy.visit(ghostUrl + "/ghost/#/signin");
-  });
-
-  // Escenario 1: Inicio de sesión con datos inválidos - Random email y password
-  it("1. Ingresar Random email & password", () => {
-    const aprioriIndex = 1;
-    var randomEmail = dataPool[aprioriIndex].email;
-    var randomPass = dataPool[aprioriIndex].password;
-    cy.log(
-      "Usaremos el email " + randomEmail + " y la contraseña " + randomPass
-    );
-    cy.get('input[name="identification"]').type(randomEmail, { force: true });
-    cy.get('input[name="password"]').type(randomPass, { force: true });
-    cy.get('button[type="submit"]').click();
-    // Verificar que se muestre el mensaje de error
-    cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
-      .contains("There is no user with that email address.") // Verifica que contenga el texto "Unknown error"
-      .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`apriori/${timestamp}/scn1`);
-  });
-
-  // Escenario 2: Inicio de sesión con datos inválidos - Valid email y random password
-  it("2. Ingresar Valid email & Random password", () => {
-    const aprioriIndex = 2;
-    var validEmail = loginData.email;
-    var randomPass = dataPool[aprioriIndex].password;
-    cy.log(
-      "Usaremos el email " + validEmail + " y la contraseña " + randomPass
-    );
-    cy.get('input[name="identification"]').type(validEmail, { force: true });
-    cy.get('input[name="password"]').type(randomPass, { force: true });
-    cy.get('button[type="submit"]').click();
-    // Verificar que se muestre el mensaje de error
-    cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
-      .should(($element) => {
-        const text = $element.text();
-        expect(text).to.match(
-          /Your password is incorrect\.|Too many login attempts\.|Please fill out the form to sign in.\./
-        );
-      })
-      .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`apriori/${timestamp}/scn2`);
-  });
-
-  // Escenario 3: Inicio de sesión con datos inválidos - Random email y naughty password
-  it("3. Ingresar Random email & Naughty password", () => {
-    const aprioriIndex = 3;
-    var randomEmail = dataPool[aprioriIndex].email;
-    var naughtyPass = dataPool[aprioriIndex].naughty_password;
-    cy.log(
-      "Usaremos el email " + randomEmail + " y la contraseña " + naughtyPass
-    );
-    cy.get('input[name="identification"]').type(randomEmail, { force: true });
-    cy.get('input[name="password"]').type(naughtyPass, { force: true });
-    cy.get('button[type="submit"]').click();
-    // Verificar que se muestre el mensaje de error
-    cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
-      .contains("There is no user with that email address.") // Verifica que contenga el texto "Unknown error"
-      .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`apriori/${timestamp}/scn3`);
-  });
-
-  // Escenario 4: Inicio de sesión con datos inválidos - Random email y empty password
-  it("4. Ingresar Random email & Empty password", () => {
-    const aprioriIndex = 4;
-    var randomEmail = dataPool[aprioriIndex].email;
-    cy.log(
-      "Usaremos el email " + randomEmail + " y la contraseña vacia (empty)"
-    );
-    cy.get('input[name="identification"]').type(randomEmail, { force: true });
-    cy.get('button[type="submit"]').click();
-    // Verificar que se muestre el mensaje de error
-    cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
-      .contains("Please fill out the form to sign in.") // Verifica que contenga el texto "Please fill out the form to sign in."
-      .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`apriori/${timestamp}/scn4`);
-  });
-
-  // Escenario 5: Inicio de sesión con datos inválidos - Empty email y random password
-  it("5. Ingresar Empty email & random password", () => {
-    const aprioriIndex = 5;
-    var randomPass = dataPool[aprioriIndex].password;
-    cy.log("Usaremos el email vacio (empty) y la contraseña " + randomPass);
-    cy.get('input[name="password"]').type(randomPass, { force: true });
-    cy.get('button[type="submit"]').click();
-    // Verificar que se muestre el mensaje de error
-    cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
-      .contains("Please fill out the form to sign in.") // Verifica que contenga el texto "Please fill out the form to sign in."
-      .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`apriori/${timestamp}/scn5`);
-  });
-
-  // Escenario 6: Inicio de sesión con datos inválidos - Valid email & invalid kanji password
-  it("6. Ingresar Valid email & invalid kanji password", () => {
-    const aprioriIndex = 6;
-    var validEmail = loginData.email;
-    var randomPass = dataPool[aprioriIndex].kanji;
-    cy.log(
-      "Usaremos el email " + validEmail + " y la contraseña " + randomPass
-    );
-    cy.get('input[name="identification"]').type(validEmail, { force: true });
-    cy.get('input[name="password"]').type(randomPass, { force: true });
-    cy.get('button[type="submit"]').click();
-    // Verificar que se muestre el mensaje de error
-    cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
-      .should(($element) => {
-        const text = $element.text();
-        expect(text).to.match(
-          /Your password is incorrect\.|Too many login attempts\.|Please fill out the form to sign in.\./
-        );
-      })
-      .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`apriori/${timestamp}/scn6`);
-  });
-
-  // Escenario 7: Inicio de sesión con datos inválidos - Naughty email & random password
-  it("7. Ingresar Naughty email & random password", () => {
-    const aprioriIndex = 7;
-    var naughtyEmail = dataPool[aprioriIndex].naughty_email;
-    var randomPass = dataPool[aprioriIndex].password;
-    cy.log(
-      "Usaremos el email " + naughtyEmail + " y la contraseña " + randomPass
-    );
-    cy.get('input[name="identification"]').type(naughtyEmail, { force: true });
-    cy.get('input[name="password"]').type(randomPass, { force: true });
-    cy.get('button[type="submit"]').click();
-    // Verificar que se muestre el mensaje de error
-    cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
-      .contains("Please fill out the form to sign in.") // Verifica que contenga el texto "Please fill out the form to sign in."
-      .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`apriori/${timestamp}/scn7`);
-  });
-
-  // Escenario 8: Inicio de sesión con datos inválidos - Empty email & Naughty password
-  it("8. Ingresar Empty email & Naughty password", () => {
-    const aprioriIndex = 8;
-    var naughtyPass = dataPool[aprioriIndex].naughty_password;
-    cy.log("Usaremos el email vacio (empty) y la contraseña " + naughtyPass);
-    cy.get('input[name="password"]').type(naughtyPass, { force: true });
-    cy.get('button[type="submit"]').click();
-    // Verificar que se muestre el mensaje de error
-    cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
-      .contains("Please fill out the form to sign in.") // Verifica que contenga el texto "Please fill out the form to sign in."
-      .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`apriori/${timestamp}/scn8`);
-  });
-
-  // Escenario 9: Inicio de sesión con datos inválidos - Valid email & Naughty password
-  it("9. Ingresar Valid email & Naughty password", () => {
-    const aprioriIndex = 9;
-    var naughtyPass = dataPool[aprioriIndex].naughty_password;
-    var validEmail = loginData.email;
-    cy.log(
-      "Usaremos el email " + validEmail + " y la contraseña " + naughtyPass
-    );
-    cy.get('input[name="identification"]').type(validEmail, { force: true });
-    cy.get('input[name="password"]').type(naughtyPass, { force: true });
-    cy.get('button[type="submit"]').click();
-    // Verificar que se muestre el mensaje de error
-    cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
-      .should(($element) => {
-        const text = $element.text();
-        expect(text).to.match(
-          /Your password is incorrect\.|Too many login attempts\.|Please fill out the form to sign in.\./
-        );
-      })
-      .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`apriori/${timestamp}/scn9`);
-  });
-
-  // Escenario 10: Inicio de sesión con datos inválidos - Naughty email & Valid password
-  it("10. Ingresar Naughty email & Valid password", () => {
-    const aprioriIndex = 10;
-    var naughtyEmail = dataPool[aprioriIndex].naughty_email;
-    var validPass = loginData.password;
-    cy.log(
-      "Usaremos el email " + naughtyEmail + " y la contraseña " + validPass
-    );
-    cy.get('input[name="identification"]').type(naughtyEmail, { force: true });
-    cy.get('input[name="password"]').type(validPass, { force: true });
-    cy.get('button[type="submit"]').click();
-    // Verificar que se muestre el mensaje de error
-    cy.get("p.main-error") // Selecciona el elemento <p> con la clase "main-error"
-      .contains("Please fill out the form to sign in.") // Verifica que contenga el texto "Please fill out the form to sign in."
-      .should("be.visible"); // Verifica que el elemento sea visible en la página
-    cy.screenshot(`apriori/${timestamp}/scn10`);
-  });
-});
-
-/**
- * Pruebas a priori de Ghost 3.41.1 de Posts y Pages
- */
-context("Pruebas a priori de Ghost 3.41.1 de Posts y Pages", () => {
+context("Pruebas a priori de Ghost 3.41.1 de Tags y Staff", () => {
   // Generar los datos apriori con Mockaroo y guardarlos en un data pool
   before(() => {
     fileName = `data_${timestamp}.json`; // Agrega la marca de tiempo al nombre del archivo
@@ -251,13 +22,16 @@ context("Pruebas a priori de Ghost 3.41.1 de Posts y Pages", () => {
         expect(response.status).to.eq(200); // Verificar que la respuesta sea exitosa
         // Acceder a los datos del JSON
         const dataPool = JSON.stringify(response.body); // Convierte la respuesta en string JSON
-        cy.writeFile(`cypress/fixtures/data_pool/posts-pages/${fileName}`, dataPool); // Guarda los datos en un archivo
+        cy.writeFile(
+          `cypress/fixtures/data_pool/Tags-Staff/${fileName}`,
+          dataPool
+        ); // Guarda los datos en un archivo
         cy.log("Se recibio de Mockaroo: " + dataPool);
       }
     );
 
     // Leer los datos del data pool de Mockaroo y guardarlos en una variable (jsonData)
-    cy.readFile(`cypress/fixtures/data_pool/posts-pages/${fileName}`).then(
+    cy.readFile(`cypress/fixtures/data_pool/Tags-Staff/${fileName}`).then(
       (fileContent) => {
         dataPool = fileContent;
         cy.log(fileContent); // Imprimir el contenido del archivo en la consola de Cypress
@@ -282,302 +56,244 @@ context("Pruebas a priori de Ghost 3.41.1 de Posts y Pages", () => {
     cy.get('button[type="submit"]').click();
   });
 
-  it("11. Crear Post con titulo aleatorio", () => {
-    const aprioriIndex = 11; // Indice del data pool a utilizar
-    cy.get("#ember28").click();
-    cy.url()
-      .should("exist")
-      .should("eq", ghostUrl + "/ghost/#/posts");
-    cy.get('a[href*="editor/post"]').first().click();
-    cy.url().should("eq", ghostUrl + "/ghost/#/editor/post");
-    let title = dataPool[aprioriIndex].title;
-    cy.get(".gh-editor-title.ember-text-area.gh-input.ember-view")
-      .type(title)
-      .should("exist")
-      .should("have.value", title);
-    // Damos clic en New para generar un evento de guardado
-    cy.get("span.fw4.midgrey-l2 div")
-      .should(($div) => {
-        const text = $div.text().trim();
-        expect(text.includes("New")).to.be.true;
-      })
-      .click();
-    // Verificamos que el estado sea Saving y luego Draft para verificar que se guardo
-    cy.get("span.fw4.midgrey-l2 div").should(($div) => {
-      expect($div.text().trim()).to.match(/(?:Saving\.\.\.|Draft)\s*/g);
-    });
-    cy.screenshot(`apriori/${timestamp}/scn11`);
-  });
+  it("31. Crear Tag con name valido y Description naughty", () => {
+    const aprioriIndex = 31; // Indice del data pool a utilizar
+    cy.get("a[href='#/tags/']").click();
+    cy.get("a[href='#/tags/new/']").click();
+    cy.wait(1000);
+    let name = dataPool[aprioriIndex].title;
+    cy.get("#tag-name").type(name);
+    let description = dataPool[aprioriIndex].naughty_title;
+    cy.get("#tag-description").type(description);
 
-  it("12. Crear Post con titulo naughty", () => {
-    const aprioriIndex = 12; // Indice del data pool a utilizar
-    cy.get("#ember28").click();
-    cy.url()
-      .should("exist")
-      .should("eq", ghostUrl + "/ghost/#/posts");
-    cy.get('a[href*="editor/post"]').first().click();
-    cy.url().should("eq", ghostUrl + "/ghost/#/editor/post");
-    let title = dataPool[aprioriIndex].naughty_title;
-    cy.get(".gh-editor-title.ember-text-area.gh-input.ember-view")
-      .type(title)
-      .should("exist")
-      .should("have.value", title);
-    // Damos clic en New para generar un evento de guardado
-    cy.get("span.fw4.midgrey-l2 div")
-      .should(($div) => {
-        const text = $div.text().trim();
-        expect(text.includes("New")).to.be.true;
-      })
+    // Guardamos los cambios del nuevo tag
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
       .click();
 
-    // Verificamos que el estado sea Saving y luego Draft para verificar que se guardo
-    cy.get("span.fw4.midgrey-l2 div").should(($div) => {
-      expect($div.text().trim()).to.match(/(?:Saving\.\.\.|Draft)\s*/g);
-    });
-    cy.screenshot(`apriori/${timestamp}/scn12`);
-  });
+    cy.wait(1000);
 
-  it("13. Crear Post con titulo caracteres chinos", () => {
-    const aprioriIndex = 13; // Indice del data pool a utilizar
-    cy.get("#ember28").click();
-    cy.url()
-      .should("exist")
-      .should("eq", ghostUrl + "/ghost/#/posts");
-    cy.get('a[href*="editor/post"]').first().click();
-    cy.url().should("eq", ghostUrl + "/ghost/#/editor/post");
-    let title = dataPool[aprioriIndex].chinese_title;
-    cy.get(".gh-editor-title.ember-text-area.gh-input.ember-view")
-      .type(title)
-      .should("exist")
-      .should("have.value", title);
-    // Damos clic en New para generar un evento de guardado
-    cy.get("span.fw4.midgrey-l2 div")
-      .should(($div) => {
-        const text = $div.text().trim();
-        expect(text.includes("New")).to.be.true;
-      })
-      .click();
-    // Verificamos que el estado sea Saving y luego Draft para verificar que se guardo
-    cy.get("span.fw4.midgrey-l2 div").should(($div) => {
-      expect($div.text().trim()).to.match(/(?:Saving\.\.\.|Draft)\s*/g);
-    });
-    cy.screenshot(`apriori/${timestamp}/scn13`);
-  });
-
-  it("14. Crear Post con titulo de mas de 255 caracteres", () => {
-    const aprioriIndex = 14; // Indice del data pool a utilizar
-    cy.get("#ember28").click();
-    cy.url()
-      .should("exist")
-      .should("eq", ghostUrl + "/ghost/#/posts");
-    cy.get('a[href*="editor/post"]').first().click();
-    cy.url().should("eq", ghostUrl + "/ghost/#/editor/post");
-    let title = dataPool[aprioriIndex].long_title;
-    // Ingresamos el titulo de mas de 255 caracteres
-    cy.get(".gh-editor-title.ember-text-area.gh-input.ember-view")
-      .type(title)
-      .should("exist")
-      .should("have.value", title);
-    // Damos clic en New para generar un evento de guardado
-    cy.get("span.fw4.midgrey-l2 div")
-      .should(($div) => {
-        const text = $div.text().trim();
-        expect(text.includes("New")).to.be.true;
-      })
-      .click();
-    // Verificamos que el estado sigue en New para indicar que no se guardo
-    cy.get("span.fw4.midgrey-l2 div").should(($div) => {
-      const text = $div.text().trim();
-      expect(text.includes("New")).to.be.true;
-    });
-    cy.screenshot(`apriori/${timestamp}/scn14`);
-  });
-
-  it("15. Crear Post con excerpt mayor a 300 caracteres", () => {
-    const aprioriIndex = 15; // Indice del data pool a utilizar
-    let inputExcerpt = dataPool[aprioriIndex].long_excerpt;
-    let title = dataPool[aprioriIndex].title;
-    // Ingresamos al menu de posts
-    cy.get('a[href*="editor/post"]').first().click();
-    // Verificamos que la url sea la correcta
-    cy.url().should("eq", ghostUrl + "/ghost/#/editor/post");
-    // Ingresamos el titulo del post valido
-    cy.get(".gh-editor-title.ember-text-area.gh-input.ember-view")
-      .type(title)
-      .should("exist")
-      .should("have.value", title);
-    // Damos clic en el icono de configuracion
-    cy.get("button.post-settings").first().click({ force: true });
-    // Verificamos que el menu de configuracion este visible
-    cy.get(
-      ".settings-menu-pane-out-right.settings-menu.settings-menu-pane"
-    ).should("be.visible"); // Espera hasta que el elemento span esté visible
-    // Espera hasta que el elemento excerpt esté visible y desplazar el excerpt al viewport si está oculto
-    cy.wait(4000);
-    cy.get("#custom-excerpt")
-      .should("exist") // Verificar que el elemento exista en el DOM
-      .scrollIntoView() // Desplazar al elemento al viewport si está oculto
-      .focus()
-      .click(); // Hacer foco en el elemento
-    // Seleccionamos el input del excerpt y escribimos el texto y verificamos que se haya escrito
-    cy.get("#custom-excerpt")
-      .clear()
-      .should("be.visible")
-      .type(dataPool[aprioriIndex].long_excerpt)
-      .should("have.value", dataPool[aprioriIndex].long_excerpt);
-    // Se hace clic en el fondo del menu para que dispare la validacion del excerpt
-    cy.get(".settings-menu-header")
-      .first()
-      .should("exist")
-      .click({ force: true });
-
-    // Espera hasta que el elemento span esté visible y espera hasta que el elemento contenga el texto "Excerpt cannot be longer than 300 characters."
-    cy.get(".response")
-      .first()
-      .should(($p) => {
-        expect($p.first()).to.contain(
-          // Verificar que el elemento contenga el texto
-          "Excerpt cannot be longer than 300 characters."
-        );
+    // Verificamos que el estado sea Save y Saved para verificar que se guardo
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
+      .should(($span) => {
+        expect($span.text().trim()).to.match(/(?:Save|\"Saved\")\s*/g);
       });
-    cy.screenshot(`apriori/${timestamp}/scn15`);
+    cy.screenshot(`apriori/${timestamp}/scn31`);
   });
 
-  it("16. Crear Post con titulo URL", () => {
-    const aprioriIndex = 16; // Indice del data pool a utilizar
-    cy.get("#ember28").click();
-    cy.url()
-      .should("exist")
-      .should("eq", ghostUrl + "/ghost/#/posts");
-    cy.get('a[href*="editor/post"]').first().click();
-    cy.url().should("eq", ghostUrl + "/ghost/#/editor/post");
-    let title = dataPool[aprioriIndex].url_title;
-    cy.get(".gh-editor-title.ember-text-area.gh-input.ember-view")
-      .type(title)
-      .should("exist")
-      .should("have.value", title);
-    // Damos clic en New para generar un evento de guardado
-    cy.get("span.fw4.midgrey-l2 div")
-      .should(($div) => {
-        const text = $div.text().trim();
-        expect(text.includes("New")).to.be.true;
-      })
+  it("32. Crear Tag con Slug naughty", () => {
+    const aprioriIndex = 32; // Indice del data pool a utilizar
+    cy.get("a[href='#/tags/']").click();
+    cy.get("a[href='#/tags/new/']").click();
+    let name = dataPool[aprioriIndex].title;
+    cy.get("#tag-name").type(name);
+    let slug = dataPool[aprioriIndex].naughty_title;
+    cy.get("#tag-slug").type(slug);
+    let description = dataPool[aprioriIndex].type;
+    cy.get("#tag-description").type(description);
+
+    // Guardamos los cambios del nuevo tag
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
       .click();
-    // Verificamos que el estado sea Saving y luego Draft para verificar que se guardo
-    cy.get("span.fw4.midgrey-l2 div").should(($div) => {
-      expect($div.text().trim()).to.match(/(?:Saving\.\.\.|Draft)\s*/g);
-    });
-    cy.screenshot(`apriori/${timestamp}/scn16`);
+
+    cy.wait(1000);
+
+    // Verificamos que el estado sea Save y Saved para verificar que se guardo
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
+      .should(($span) => {
+        expect($span.text().trim()).to.match(/(?:Save|\"Saved\")\s*/g);
+      });
+    cy.screenshot(`apriori/${timestamp}/scn32`);
   });
 
-  it("17. Crear Page con titulo aleatorio", () => {
-    const aprioriIndex = 17; // Indice del data pool a utilizar
-    cy.get('a[href*="#/pages/"]').first().click();
-    cy.url()
-      .should("exist")
-      .should("eq", ghostUrl + "/ghost/#/pages");
-    cy.get('a[href*="#/editor/page"]').first().click();
-    cy.url().should("eq", ghostUrl + "/ghost/#/editor/page");
-    let title = dataPool[aprioriIndex].random_title;
-    cy.get(".gh-editor-title.ember-text-area.gh-input.ember-view")
-      .type(title)
-      .should("exist")
-      .should("have.value", title);
-    // Damos clic en New para generar un evento de guardado
-    cy.get("span.fw4.midgrey-l2 div")
-      .should(($div) => {
-        const text = $div.text().trim();
-        expect(text.includes("New")).to.be.true;
-      })
+  it("33. Crear Tag con Slug texto con espacios", () => {
+    const aprioriIndex = 33; // Indice del data pool a utilizar
+    cy.get("a[href='#/tags/']").click();
+    cy.get("a[href='#/tags/new/']").click();
+    let name = dataPool[aprioriIndex].title;
+    cy.get("#tag-name").type(name);
+    let slug = dataPool[aprioriIndex].title;
+    cy.get("#tag-slug").type(slug);
+    let description = dataPool[aprioriIndex].type;
+    cy.get("#tag-description").type(description);
+
+    // Guardamos los cambios del nuevo tag
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
       .click();
-    // Verificamos que el estado sea Saving y luego Draft para verificar que se guardo
-    cy.get("span.fw4.midgrey-l2 div").should(($div) => {
-      expect($div.text().trim()).to.match(/(?:Saving\.\.\.|Draft)\s*/g);
-    });
-    cy.screenshot(`apriori/${timestamp}/scn17`);
+
+    cy.wait(1000);
+
+    // Verificamos que el estado sea Save y Saved para verificar que se guardo
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
+      .should(($span) => {
+        expect($span.text().trim()).to.match(/(?:Save|\"Saved\")\s*/g);
+      });
+    cy.screenshot(`apriori/${timestamp}/scn33`);
   });
 
-  it("18. Crear Page con titulo naughty", () => {
-    const aprioriIndex = 18; // Indice del data pool a utilizar
-    cy.get('a[href*="#/pages/"]').first().click();
-    cy.url()
-      .should("exist")
-      .should("eq", ghostUrl + "/ghost/#/pages");
-    cy.get('a[href*="#/editor/page"]').first().click();
-    cy.url().should("eq", ghostUrl + "/ghost/#/editor/page");
-    let title = dataPool[aprioriIndex].naughty_title;
-    cy.get(".gh-editor-title.ember-text-area.gh-input.ember-view")
-      .type(title)
-      .should("exist")
-      .should("have.value", title); // Verificar que el elemento contenga el texto
+  it("34. Crear Tag con Slug extenso", () => {
+    const aprioriIndex = 34; // Indice del data pool a utilizar
+    cy.get("a[href='#/tags/']").click();
+    cy.get("a[href='#/tags/new/']").click();
+    let name = dataPool[aprioriIndex].title;
+    cy.get("#tag-name").type(name);
+    let slug = dataPool[aprioriIndex].long_title;
+    cy.get("#tag-slug").type(slug);
+    let description = dataPool[aprioriIndex].type;
+    cy.get("#tag-description").type(description);
 
-    // Damos clic en New para generar un evento de guardado
-    cy.get("span.fw4.midgrey-l2 div")
-      .should(($div) => {
-        const text = $div.text().trim();
-        expect(text.includes("New")).to.be.true;
-      })
+    // Guardamos los cambios del nuevo tag
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
       .click();
-    // Verificamos que el estado sea Saving y luego Draft para verificar que se guardo
-    cy.get("span.fw4.midgrey-l2 div").should(($div) => {
-      expect($div.text().trim()).to.match(/(?:Saving\.\.\.|Draft)\s*/g);
-    });
-    cy.screenshot(`apriori/${timestamp}/scn18`);
+
+    cy.wait(1000);
+
+    // Verificamos que el estado sea Save y Saved para verificar que se guardo
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
+      .should(($span) => {
+        expect($span.text().trim()).to.match(/(?:Save|\"Saved\")\s*/g);
+      });
+    cy.screenshot(`apriori/${timestamp}/scn34`);
   });
 
-  it("19. Crear Page con titulo caracteres chinos", () => {
-    const aprioriIndex = 19; // Indice del data pool a utilizar
-    cy.get('a[href*="#/pages/"]').first().click();
-    cy.url()
-      .should("exist")
-      .should("eq", ghostUrl + "/ghost/#/pages");
-    cy.get('a[href*="#/editor/page"]').first().click();
-    cy.url().should("eq", ghostUrl + "/ghost/#/editor/page");
-    let title = dataPool[aprioriIndex].chinese_title;
-    cy.get(".gh-editor-title.ember-text-area.gh-input.ember-view")
-      .type(title)
-      .should("exist")
-      .should("have.value", title);
-    // Damos clic en New para generar un evento de guardado
-    cy.get("span.fw4.midgrey-l2 div")
-      .should(($div) => {
-        const text = $div.text().trim();
-        expect(text.includes("New")).to.be.true;
-      })
+  it("35. Crear Tag con Slug valido", () => {
+    const aprioriIndex = 35; // Indice del data pool a utilizar
+    cy.get("a[href='#/tags/']").click();
+    cy.get("a[href='#/tags/new/']").click();
+    let name = dataPool[aprioriIndex].title;
+    cy.get("#tag-name").type(name);
+    let description = dataPool[aprioriIndex].type;
+    cy.get("#tag-description").type(description);
+
+    // Guardamos los cambios del nuevo tag
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
       .click();
-    // Verificamos que el estado sea Saving y luego Draft para verificar que se guardo
-    cy.get("span.fw4.midgrey-l2 div").should(($div) => {
-      expect($div.text().trim()).to.match(/(?:Saving\.\.\.|Draft)\s*/g);
-    });
-    cy.screenshot(`apriori/${timestamp}/scn19`);
+
+    cy.wait(1000);
+
+    // Verificamos que el estado sea Save y Saved para verificar que se guardo
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
+      .should(($span) => {
+        expect($span.text().trim()).to.match(/(?:Save|\"Saved\")\s*/g);
+      });
+    cy.screenshot(`apriori/${timestamp}/scn35`);
   });
 
-  it("20. Crear Page con titulo de mas de 255 caracteres", () => {
-    const aprioriIndex = 20; // Indice del data pool a utilizar
-    cy.get('a[href*="#/pages/"]').first().click();
-    cy.url()
-      .should("exist")
-      .should("eq", ghostUrl + "/ghost/#/pages");
-    cy.get('a[href*="#/editor/page"]').first().click();
-    cy.url().should("eq", ghostUrl + "/ghost/#/editor/page");
-    let title = dataPool[aprioriIndex].long_title;
-    // Escribimos el titulo de mas de 255 caracteres
-    cy.get(".gh-editor-title.ember-text-area.gh-input.ember-view")
-      .type(title)
-      .should("exist")
-      .should("have.value", title);
-    // Damos clic en New para generar un evento de guardado
-    cy.get("span.fw4.midgrey-l2 div")
-      .should(($div) => {
-        const text = $div.text().trim();
-        expect(text.includes("New")).to.be.true;
-      })
-      .click();
-    // Verificamos que el estado sea New indicando que no se guardo
-    cy.get("span.fw4.midgrey-l2 div").should(($div) => {
-      const text = $div.text().trim();
-      expect(text.includes("New")).to.be.true;
+  it("36. Crear Staff user con email aleatorio valido", () => {
+    const aprioriIndex = 36; // Indice del data pool a utilizar
+    cy.get("a[href='#/staff/']").click();
+    cy.get("span").contains("Invite people").click();
+    let email = dataPool[aprioriIndex].email;
+    cy.get("#new-user-email").type(email);
+
+    // Guardamos los cambios del nuevo staff user
+    cy.get("[class='gh-btn gh-btn-green gh-btn-icon ember-view']").click();
+
+    cy.visit(ghostUrl + "/ghost/#/signin");
+    cy.wait(2000);
+
+    cy.wait(1000);
+    // Verificamos que el staff user se haya agregado
+    cy.get("article.apps-card-app")
+      .children("div.apps-card-left")
+      .children("div.apps-card-meta")
+      .children("h3")
+      .should(($h3) => {
+        expect($h3).to.contain(email);
+      });
+    cy.screenshot(`apriori/${timestamp}/scn36`);
+  });
+
+  it("37. Crear Staff user con email naughty", () => {
+    const aprioriIndex = 37; // Indice del data pool a utilizar
+    cy.get("a[href='#/staff/']").click();
+    cy.get("span").contains("Invite people").click();
+    let email = dataPool[aprioriIndex].naughty_title;
+    cy.get("#new-user-email").type(email);
+
+    // Guardamos los cambios del nuevo staff user
+    cy.get("span").contains("Send invitation now").click();
+
+    cy.wait(1000);
+    // Verificamos que el staff user se haya agregado
+    cy.get("p.response").should(($p) => {
+      expect($p).to.contain("Invalid Email.");
     });
-    cy.screenshot(`apriori/${timestamp}/scn20`);
+    cy.screenshot(`apriori/${timestamp}/scn37`);
+  });
+
+  it("38. Crear Staff user con email extenso", () => {
+    const aprioriIndex = 38; // Indice del data pool a utilizar
+    cy.get("a[href='#/staff/']").click();
+    cy.get("span").contains("Invite people").click();
+    let email = dataPool[aprioriIndex].long_title;
+    cy.get("#new-user-email").type(email + "@gmail.com");
+
+    // Guardamos los cambios del nuevo staff user
+    cy.get("span").contains("Send invitation now").click();
+
+    cy.wait(1000);
+    // Verificamos que el staff user se haya agregado
+    cy.get("p.response").should(($p) => {
+      expect($p).to.contain("Invalid Email.");
+    });
+    cy.screenshot(`apriori/${timestamp}/scn38`);
+  });
+
+  it("39. Crear Staff user con email duplicado", () => {
+    const aprioriIndex = 39; // Indice del data pool a utilizar
+    cy.get("a[href='#/staff/']").click();
+    cy.get("span").contains("Invite people").click();
+    let email = dataPool[aprioriIndex].email;
+    cy.get("#new-user-email").type(email);
+
+    // Guardamos los cambios del nuevo staff user
+    cy.get("span").contains("Send invitation now").click();
+
+    cy.visit(ghostUrl + "/ghost/#/signin");
+    cy.wait(2000);
+
+    // Creamos un staff user con los datos anteriores
+    cy.get("span").contains("Invite people").click();
+    cy.get("#new-user-email").type(email);
+
+    // Guardamos los cambios del nuevo staff user
+    cy.get("span").contains("Send invitation now").click();
+
+    cy.wait(1000);
+    // Verificamos que el staff user se haya agregado
+    cy.get("p.response").should(($p) => {
+      expect($p).to.contain(
+        "A user with that email address was already invited."
+      );
+    });
+    cy.screenshot(`apriori/${timestamp}/scn39`);
+  });
+
+  it("40. Crear Staff user con email URL", () => {
+    const aprioriIndex = 40; // Indice del data pool a utilizar
+    cy.get("a[href='#/staff/']").click();
+    cy.get("span").contains("Invite people").click();
+    let email = dataPool[aprioriIndex].url_title;
+    cy.get("#new-user-email").type(email + "@gmail.com");
+
+    // Guardamos los cambios del nuevo staff user
+    cy.get("span").contains("Send invitation now").click();
+
+    cy.wait(1000);
+    // Verificamos que el staff user se haya agregado
+    cy.get("p.response").should(($p) => {
+      expect($p).to.contain("Invalid Email.");
+    });
+    cy.screenshot(`apriori/${timestamp}/scn40`);
   });
 });
