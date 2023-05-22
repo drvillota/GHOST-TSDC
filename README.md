@@ -29,8 +29,14 @@ Se crearon APIs para las entidades Staff (Members) Pages y Posts (Posts) y Tags.
 - [Para Login](https://my.api.mockaroo.com/login.json?key=af4f0e30)
 
  
-## Instrucciones de instalacion y ejecucion:
-### 1. Instalacion de las herramientas
+## Instrucciones de instalacion y ejecucion
+En esta ocasion se ejecutara Ghost 3.41.1 instalado en el localhost para tener a facilidad de reiniciarlo en caso de que haya un bloqueo por defecto del numero de logins en una hora (100 veces en una hora). Verifique la ejecucion de Ghost antes de realizar las pruebas.
+
+### 0. Preparacion del Ghost
+ 1. Instale Ghost como contenedor docker version 3.41.1 por ejemplo en el entorno linux: `sudo docker create --name mi-ghost -p 2368:2368 ghost:3.41.1`
+ 2. Abra el navegador y confirme la creacion de un nuevo usuario con los siguientes datos **email**: `lasherone@hotmail.com` **password**: `Pruebas12345`
+
+### 1. Instalacion de las herramientas de prueba y del proxy CORS
  1. Clone este repositorio con `git clone https://github.com/drvillota/GHOST-TSDC.git`.
  2. Ingrese a la carpeta clonada: `cd GHOST-TSDC`.
  3. Ingrese a la carpeta de cypress: `cd cypress`.
@@ -51,9 +57,9 @@ Se crearon APIs para las entidades Staff (Members) Pages y Posts (Posts) y Tags.
  6. Ahora seleccione el navegador a usar en las pruebas, en nuestro caso `Chrome`.
  7. Presione el boton `Start E2E Testing in Chrome`.
  8. En el Navegador Chrome emergente de clic en el enlace `Specs` del menu lateral izquierdo.
- 9. Dirijase a la carpeta `cypress/e2e` y luego a `generacion-datos\ghost-3.41.1`
- 10. Seleccione alguno de los archivos `*.spec.cy.js` para iniciar las pruebas.
- 11. Verifique en el panel lateral izquierdo la ejecucion de las pruebas.
+ 9. Dirijase a la carpeta `cypress/e2e` y luego a `generacion-datos`
+ 10. Seleccione alguna de las carpetas segun la estrategia de generacion de datos (por ejemplo `a-priori`) y busque alguno de los archivos `*.spec.cy.js` para iniciar las pruebas.
+ 11. Verifique en el panel lateral izquierdo la ejecucion de las pruebas. Espere a que terminen las pruebas. En caso de error por numero de logins en 1 hora debera reiniciar el servidor Ghost.
  12. Cierre la aplicacion Cypress con `file->exit` o en la terminal presionando `Control-C.`
  13. Por ultimo cierre la terminal donde esta ejecutandose `http-proxy-middleware`, o en su defecto presione `Control-C` para detener el proxy.
 
@@ -66,46 +72,60 @@ Se crearon APIs para las entidades Staff (Members) Pages y Posts (Posts) y Tags.
 
 ### Listado de escenarios
 
-1. Ingresar Random email & password
-2. Ingresar Valid email & Random password
-3. Ingresar Random email & Naughty password
-4. Ingresar Random email & Empty password
-5. Ingresar Empty email & random password
-6. Ingresar Valid email & invalid kanji password
-7. Ingresar Naughty email & random password
-8. Ingresar Empty email & Naughty password
-9. Ingresar Valid email & Naughty password
-10. Ingresar Naughty email & Valid password
-11. Crear Post con titulo aleatorio
-12. Crear Post con titulo naughty
-13. Crear Post con titulo valido
-14. Crear Post con titulo de mas de 255 caracteres
-15. Crear Post con excerpt mayor a 300 caracteres
-16. Crear Post con titulo URL
-17. Crear Page con titulo aleatorio
-18. Crear Page con titulo naughty
-19. Crear Page con titulo valido
-20. Crear Page con titulo de mas de 255 caracteres
-21. Crear Page con excerpt mayor a 300 caracteres
-22. Crear Page con titulo URL
-23. Crear Tag name aleatorio
-24. Crear Tag con name naughty
-25. Crear Tag con name valido
-26. Crear Tag con name URL
-27. Crear Tag con name email
-28. Crear Tag con name Date
-29. Crear Tag con texto mayor a 191 caracteres
-30. Crear Tag con name valido y Description mayor a 500 caracteres
-31. Crear Tag con name valido y Description naughty
-32. Crear Tag con Slug naughty 
-33. Crear Tag con Slug texto con espacios
-34. Crear Tag con Slug extenso
-35. Crear Tag con Slug valido
-36. Crear Staff user con email aleatorio valido
-37. Crear Staff user con email naughty
-38. Crear Staff user con email extenso
-39. Crear Staff user con email duplicado
-40. Crear Staff user con email URL
+- Descripción de las estrategias usadas
+    - *Generación de datos de prueba apriori (Apriori Test Data Generation)*
+        Esta estrategia de generación de datos se basa en un análisis previo de los requisitos y las especificaciones del sistema. Se utilizan conocimientos previos para definir conjuntos específicos de datos de prueba que se consideran relevantes y representativos de los casos de uso esperados.
+        Para esta generacion usamos APIs de Mockaroo diseñados especificamente usando el modelo de dominio de la aplicacion. Seleccionamos con anterioridad uno de los datos del **data pool**.
+    - *Generación de datos de prueba pseudoaleatorios (Pseudo-Random Test Data Generation)*
+        Esta estrategia se basa en algoritmos que generan datos de prueba de manera pseudoaleatoria. Aunque los datos no son realmente aleatorios, siguen un patrón predefinido y son deterministas en función de una semilla o valor de inicio.
+        Para esta generacion usamos APIs de Mockaroo diseñados especificamente usando el modelo de dominio de la aplicacion. Seleccionamos aleatoriamente uno de los registros del **data pool**.
+    - *Generación de datos de prueba aleatorios (Random Test Data Generation)*
+        En esta estrategia, los datos de prueba se generan de manera completamente aleatoria, sin seguir ningún patrón predefinido. Se utilizan técnicas como la generación de números aleatorios para generar valores de prueba sin ninguna restricción específica. 
+
+- Integracion de las estrategias en los escenarios de pruebas
+
+| Escenario        | Generacion a-priori | Generacion Pesudoaleatoria | Generacion aleatoria |
+| --------------- | -------- | -------- | -------- |
+|1. Ingresar Random email & password|x|x|x|
+|2. Ingresar Valid email & Random password|x|x|x|
+|3. Ingresar Random email & Naughty password|x|x|x|
+|4. Ingresar Random email & Empty password|x|x|x|
+|5. Ingresar Empty email & random password|x|x|x|
+|6. Ingresar Valid email & invalid kanji password|x|x|x|
+|7. Ingresar Naughty email & random password|x|x|x|
+|8. Ingresar Empty email & Naughty password|x|x|x|
+|9. Ingresar Valid email & Naughty password|x|x|x|
+|10. Ingresar Naughty email & Valid password|x|x|x|
+|11. Crear Post con titulo aleatorio|x|x|x|
+|12. Crear Post con titulo naughty|x|x|x|
+|13. Crear Post con titulo valido|x|x|x|
+|14. Crear Post con titulo de mas de 255 caracteres|x|x|x|
+|15. Crear Post con excerpt mayor a 300 caracteres|x|x|x|
+|16. Crear Post con titulo URL|x|x|x|
+|17. Crear Page con titulo aleatorio|x|x|x|
+|18. Crear Page con titulo naughty|x|x|x|
+|19. Crear Page con titulo valido|x|x|x|
+|20. Crear Page con titulo de mas de 255 caracteres|x|x|x|
+|21. Crear Page con excerpt mayor a 300 caracteres|x|x|x|
+|22. Crear Page con titulo URL|x|x|x|
+|23. Crear Tag name aleatorio|x|x|x|
+|24. Crear Tag con name naughty|x|x|x|
+|25. Crear Tag con name valido|x|x|x|
+|26. Crear Tag con name URL|x|x|x|
+|27. Crear Tag con name email|x|x|x|
+|28. Crear Tag con name Date|x|x|x|
+|29. Crear Tag con texto mayor a 191 caracteres|x|x|x|
+|30. Crear Tag con name valido y Description mayor a 500 caracteres|x|x|x|
+|31. Crear Tag con name valido y Description naughty|x|x|x|
+|32. Crear Tag con Slug naughty |x|x|x|
+|33. Crear Tag con Slug texto con espacios|x|x|x|
+|34. Crear Tag con Slug extenso|x|x|x|
+|35. Crear Tag con Slug valido|x|x|x|
+|36. Crear Staff user con email aleatorio valido|x|x|x|
+|37. Crear Staff user con email naughty|x|x|x|
+|38. Crear Staff user con email extenso|x|x|x|
+|39. Crear Staff user con email duplicado|x|x|x|
+|40. Crear Staff user con email URL|x|x|x|
 
 # Pruebas E2E
 ## Semana 6
