@@ -1153,7 +1153,7 @@ context("Pruebas a priori de Ghost 3.41.1 de Tags", () => {
 });
 
 /**
- * Pruebas a priori de Ghost 3.41.1 de Posts y Pages
+ * Pruebas a priori de Ghost 3.41.1 de Staff Users
  */
 context("Pruebas a priori de Ghost 3.41.1 de Staff Users", () => {
   // Generar los datos apriori con Mockaroo y guardarlos en un data pool
@@ -1206,16 +1206,16 @@ context("Pruebas a priori de Ghost 3.41.1 de Staff Users", () => {
 
     // Guardamos los cambios del nuevo staff user
     cy.get("[class='gh-btn gh-btn-green gh-btn-icon ember-view']").click();
+    cy.wait(3000);
+    //cy.visit(ghostUrl + "/ghost/#/signin");
+    
 
-    cy.visit(ghostUrl + "/ghost/#/signin");
-    cy.wait(2000);
-
-    cy.wait(1000);
     // Verificamos que el staff user se haya agregado
     cy.get("article.apps-card-app")
       .children("div.apps-card-left")
       .children("div.apps-card-meta")
       .children("h3")
+      .first()
       .should(($h3) => {
         expect($h3).to.contain(email);
       });
@@ -1226,7 +1226,7 @@ context("Pruebas a priori de Ghost 3.41.1 de Staff Users", () => {
     const aprioriIndex = 37; // Indice del data pool a utilizar
     cy.get("a[href='#/staff/']").click();
     cy.get("span").contains("Invite people").click();
-    let email = dataPool[aprioriIndex].naughty_title;
+    let email = dataPool[aprioriIndex].naughty_email;
     cy.get("#new-user-email").type(email);
 
     // Guardamos los cambios del nuevo staff user
@@ -1244,8 +1244,8 @@ context("Pruebas a priori de Ghost 3.41.1 de Staff Users", () => {
     const aprioriIndex = 38; // Indice del data pool a utilizar
     cy.get("a[href='#/staff/']").click();
     cy.get("span").contains("Invite people").click();
-    let email = dataPool[aprioriIndex].long_title;
-    cy.get("#new-user-email").type(email + "@gmail.com");
+    let email = dataPool[aprioriIndex].long_email;
+    cy.get("#new-user-email").type(email);
 
     // Guardamos los cambios del nuevo staff user
     cy.get("span").contains("Send invitation now").click();
@@ -1269,7 +1269,7 @@ context("Pruebas a priori de Ghost 3.41.1 de Staff Users", () => {
     cy.get("span").contains("Send invitation now").click();
 
     cy.visit(ghostUrl + "/ghost/#/signin");
-    cy.wait(2000);
+    cy.wait(3000);
 
     // Creamos un staff user con los datos anteriores
     cy.get("span").contains("Invite people").click();
