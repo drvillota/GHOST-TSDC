@@ -1019,3 +1019,294 @@ context("Pruebas a priori de Ghost 3.41.1 de Tags", () => {
     cy.screenshot(`pseudo/${timestamp}/scn30`);
   });
 });
+
+
+/**
+ * Pruebas pseudoaleatorias de Ghost 3.41.1 de Tags y Staff
+ */
+context("Pruebas pseudoaleatorias de Ghost 3.41.1 de Tags y Staff", () => {
+  // Generar los datos pseudoaleatorios con Mockaroo y guardarlos en un data pool
+  before(() => {
+    fileName = `data_${timestamp}.json`; // Agrega la marca de tiempo al nombre del archivo
+
+    // Generar los datos pseudoaleatorios con Mockaroo de entidades Post y Page y guardarlos en un data pool
+    cy.request("GET", proxyMockarooUrl + apiPostPage + apiMockarooKey).then(
+      (response) => {
+        expect(response.status).to.eq(200); // Verificar que la respuesta sea exitosa
+        // Acceder a los datos del JSON
+        const dataPool = JSON.stringify(response.body); // Convierte la respuesta en string JSON
+        cy.writeFile(
+          `cypress/fixtures/data_pool/Tags-Staff/${fileName}`,
+          dataPool
+        ); // Guarda los datos en un archivo
+        cy.log("Se recibio de Mockaroo: " + dataPool);
+      }
+    );
+
+    // Leer los datos del data pool de Mockaroo y guardarlos en una variable (jsonData)
+    cy.readFile(`cypress/fixtures/data_pool/Tags-Staff/${fileName}`).then(
+      (fileContent) => {
+        dataPool = fileContent;
+        cy.log(fileContent); // Imprimir el contenido del archivo en la consola de Cypress
+      }
+    );
+
+    // Leer los datos del data pool de login y clave válidos
+    cy.readFile("cypress/fixtures/data_pool/login_clave.json").then(
+      (fileContent) => {
+        loginData = fileContent;
+        cy.log("Valid login" + fileContent); // Imprimir el contenido del archivo en la consola de Cypress
+      }
+    );
+  });
+
+  // Ingresar a la página de inicio de sesión de Ghost
+  beforeEach(() => {
+    // Realizar el inicio de sesión antes de los escenarios
+    cy.visit(ghostUrl + "/ghost/#/signin");
+    cy.get('input[name="identification"]').clear().type(loginData.email);
+    cy.get('input[name="password"]').clear().type(loginData.password);
+    cy.get('button[type="submit"]').click();
+  });
+
+  it("31. Crear Tag con name valido y Description naughty", () => {
+    const pseudoIndex = Math.floor(Math.random()*dataPool.length); // Indice del data pool a utilizar
+    cy.get("a[href='#/tags/']").click();
+    cy.get("a[href='#/tags/new/']").click();
+    cy.wait(1000);
+    let name = dataPool[pseudoiIndex].title;
+    cy.get("#tag-name").type(name);
+    let description = dataPool[pseudoiIndex].naughty_title;
+    cy.get("#tag-description").type(description);
+
+    // Guardamos los cambios del nuevo tag
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
+      .click();
+
+    cy.wait(1000);
+
+    // Verificamos que el estado sea Save y Saved para verificar que se guardo
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
+      .should(($span) => {
+        expect($span.text().trim()).to.match(/(?:Save|\"Saved\")\s*/g);
+      });
+    cy.screenshot(`pseudo/${timestamp}/scn31`);
+  });
+
+  it("32. Crear Tag con Slug naughty", () => {
+    const pseudoIndex = Math.floor(Math.random()*dataPool.length); // Indice del data pool a utilizar
+    cy.get("a[href='#/tags/']").click();
+    cy.get("a[href='#/tags/new/']").click();
+    let name = dataPool[pseudoiIndex].title;
+    cy.get("#tag-name").type(name);
+    let slug = dataPool[pseudoiIndex].naughty_title;
+    cy.get("#tag-slug").type(slug);
+    let description = dataPool[pseudoiIndex].type;
+    cy.get("#tag-description").type(description);
+
+    // Guardamos los cambios del nuevo tag
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
+      .click();
+
+    cy.wait(1000);
+
+    // Verificamos que el estado sea Save y Saved para verificar que se guardo
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
+      .should(($span) => {
+        expect($span.text().trim()).to.match(/(?:Save|\"Saved\")\s*/g);
+      });
+    cy.screenshot(`pseudo/${timestamp}/scn32`);
+  });
+
+  it("33. Crear Tag con Slug texto con espacios", () => {
+    const pseudoIndex = Math.floor(Math.random()*dataPool.length); // Indice del data pool a utilizar
+    cy.get("a[href='#/tags/']").click();
+    cy.get("a[href='#/tags/new/']").click();
+    let name = dataPool[pseudoIndex].title;
+    cy.get("#tag-name").type(name);
+    let slug = dataPool[pseudoIndex].title;
+    cy.get("#tag-slug").type(slug);
+    let description = dataPool[pseudoIndex].type;
+    cy.get("#tag-description").type(description);
+
+    // Guardamos los cambios del nuevo tag
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
+      .click();
+
+    cy.wait(1000);
+
+    // Verificamos que el estado sea Save y Saved para verificar que se guardo
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
+      .should(($span) => {
+        expect($span.text().trim()).to.match(/(?:Save|\"Saved\")\s*/g);
+      });
+    cy.screenshot(`pseudo/${timestamp}/scn33`);
+  });
+
+  it("34. Crear Tag con Slug extenso", () => {
+    const pseudoIndex = Math.floor(Math.random()*dataPool.length); // Indice del data pool a utilizar
+    cy.get("a[href='#/tags/']").click();
+    cy.get("a[href='#/tags/new/']").click();
+    let name = dataPool[pseudoIndex].title;
+    cy.get("#tag-name").type(name);
+    let slug = dataPool[pseudoIndex].long_title;
+    cy.get("#tag-slug").type(slug);
+    let description = dataPool[pseudoIndex].type;
+    cy.get("#tag-description").type(description);
+
+    // Guardamos los cambios del nuevo tag
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
+      .click();
+
+    cy.wait(1000);
+
+    // Verificamos que el estado sea Save y Saved para verificar que se guardo
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
+      .should(($span) => {
+        expect($span.text().trim()).to.match(/(?:Save|\"Saved\")\s*/g);
+      });
+    cy.screenshot(`pseudo/${timestamp}/scn34`);
+  });
+
+  it("35. Crear Tag con Slug valido", () => {
+    const pseudoIndex = Math.floor(Math.random()*dataPool.length); // Indice del data pool a utilizar
+    cy.get("a[href='#/tags/']").click();
+    cy.get("a[href='#/tags/new/']").click();
+    let name = dataPool[pseudoIndex].title;
+    cy.get("#tag-name").type(name);
+    let description = dataPool[pseudoIndex].type;
+    cy.get("#tag-description").type(description);
+
+    // Guardamos los cambios del nuevo tag
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
+      .click();
+
+    cy.wait(1000);
+
+    // Verificamos que el estado sea Save y Saved para verificar que se guardo
+    cy.get("[class='gh-btn gh-btn-blue gh-btn-icon ember-view']")
+      .children("span")
+      .should(($span) => {
+        expect($span.text().trim()).to.match(/(?:Save|\"Saved\")\s*/g);
+      });
+    cy.screenshot(`pseudo/${timestamp}/scn35`);
+  });
+
+  it("36. Crear Staff user con email aleatorio valido", () => {
+    const pseudoIndex = Math.floor(Math.random()*dataPool.length); // Indice del data pool a utilizar
+    cy.get("a[href='#/staff/']").click();
+    cy.get("span").contains("Invite people").click();
+    let email = dataPool[pseudoIndex].email;
+    cy.get("#new-user-email").type(email);
+
+    // Guardamos los cambios del nuevo staff user
+    cy.get("[class='gh-btn gh-btn-green gh-btn-icon ember-view']").click();
+
+    cy.visit(ghostUrl + "/ghost/#/signin");
+    cy.wait(2000);
+
+    cy.wait(1000);
+    // Verificamos que el staff user se haya agregado
+    cy.get("article.apps-card-app")
+      .children("div.apps-card-left")
+      .children("div.apps-card-meta")
+      .children("h3")
+      .should(($h3) => {
+        expect($h3).to.contain(email);
+      });
+    cy.screenshot(`pseudo/${timestamp}/scn36`);
+  });
+
+  it("37. Crear Staff user con email naughty", () => {
+    const pseudoIndex = Math.floor(Math.random()*dataPool.length); // Indice del data pool a utilizar
+    cy.get("a[href='#/staff/']").click();
+    cy.get("span").contains("Invite people").click();
+    let email = dataPool[pseudoIndex].naughty_title;
+    cy.get("#new-user-email").type(email);
+
+    // Guardamos los cambios del nuevo staff user
+    cy.get("span").contains("Send invitation now").click();
+
+    cy.wait(1000);
+    // Verificamos que el staff user se haya agregado
+    cy.get("p.response").should(($p) => {
+      expect($p).to.contain("Invalid Email.");
+    });
+    cy.screenshot(`pseudo/${timestamp}/scn37`);
+  });
+
+  it("38. Crear Staff user con email extenso", () => {
+    const pseudoIndex = 38; // Indice del data pool a utilizar
+    cy.get("a[href='#/staff/']").click();
+    cy.get("span").contains("Invite people").click();
+    let email = dataPool[pseudoIndex].long_title;
+    cy.get("#new-user-email").type(email + "@gmail.com");
+
+    // Guardamos los cambios del nuevo staff user
+    cy.get("span").contains("Send invitation now").click();
+
+    cy.wait(1000);
+    // Verificamos que el staff user se haya agregado
+    cy.get("p.response").should(($p) => {
+      expect($p).to.contain("Invalid Email.");
+    });
+    cy.screenshot(`pseudo/${timestamp}/scn38`);
+  });
+
+  it("39. Crear Staff user con email duplicado", () => {
+    const pseudoIndex = Math.floor(Math.random()*dataPool.length); // Indice del data pool a utilizar
+    cy.get("a[href='#/staff/']").click();
+    cy.get("span").contains("Invite people").click();
+    let email = dataPool[pseudoIndex].email;
+    cy.get("#new-user-email").type(email);
+
+    // Guardamos los cambios del nuevo staff user
+    cy.get("span").contains("Send invitation now").click();
+
+    cy.visit(ghostUrl + "/ghost/#/signin");
+    cy.wait(2000);
+
+    // Creamos un staff user con los datos anteriores
+    cy.get("span").contains("Invite people").click();
+    cy.get("#new-user-email").type(email);
+
+    // Guardamos los cambios del nuevo staff user
+    cy.get("span").contains("Send invitation now").click();
+
+    cy.wait(1000);
+    // Verificamos que el staff user se haya agregado
+    cy.get("p.response").should(($p) => {
+      expect($p).to.contain(
+        "A user with that email address was already invited."
+      );
+    });
+    cy.screenshot(`pseudo/${timestamp}/scn39`);
+  });
+
+  it("40. Crear Staff user con email URL", () => {
+    const pseudoIndex = Math.floor(Math.random()*dataPool.length); // Indice del data pool a utilizar
+    cy.get("a[href='#/staff/']").click();
+    cy.get("span").contains("Invite people").click();
+    let email = dataPool[pseudoIndex].url_title;
+    cy.get("#new-user-email").type(email + "@gmail.com");
+
+    // Guardamos los cambios del nuevo staff user
+    cy.get("span").contains("Send invitation now").click();
+
+    cy.wait(1000);
+    // Verificamos que el staff user se haya agregado
+    cy.get("p.response").should(($p) => {
+      expect($p).to.contain("Invalid Email.");
+    });
+    cy.screenshot(`pseudo/${timestamp}/scn40`);
+  });
+});
