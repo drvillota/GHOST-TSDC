@@ -22,11 +22,11 @@ En esta semana se utilizarán tres estrategias de generacion de datos: A Priori,
 Para el caso de la generacion A priori y pseudo aleatoria se realizara por medio de la API de Mockaroo. Debido a las restricciones de los navegadores para recibir informacion de origen cruzado (CORS) no se pueden recibir la respuesta de dicha API sin el uso de un proxy cors.
 Se implementó un script para el uso de un proxy cors llamado `http-proxy-middleware` incluido en este proyecto.
 
-Se crearon APIs para las entidades Staff (Members) Pages y Posts (Posts) y Tags. Se agrego uno adicional para el manejo del login y contraseña.
-- [Para Staff Members](https://my.api.mockaroo.com/members_schema.json?key=af4f0e30)
+Se crearon APIs para las entidades Users, Pages y Posts (Posts) y Tags. Se agrego uno adicional para el manejo del login y contraseña validos para la aplicacion.
+
 - [Para Posts y Pages](https://my.api.mockaroo.com/posts_schema.json?key=af4f0e30)
 - [Para Tags](https://my.api.mockaroo.com/tags_schema.json?key=af4f0e30)
-- [Para Login](https://my.api.mockaroo.com/login.json?key=af4f0e30)
+- [Para Users](https://my.api.mockaroo.com/users_schema.json?key=af4f0e30)
 
  
 ## Instrucciones de instalacion y ejecucion
