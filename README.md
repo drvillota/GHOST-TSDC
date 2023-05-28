@@ -20,6 +20,8 @@ Bienvenido al repositorio del proyecto de automatización de pruebas de la aplic
 Se realizaron pruebas exploratorias manuales y mejoramiento del set de pruebas VRT que en esta ocasion genera el reporte HTML comparando screenshots de Ghost 3.41.1 con Ghost 4.44.
 Se determino que para la primer semana era conveniente realizar pruebas exploratorias para encontrar diversos estados de las funcionalidades que pudieran tener entradas que produzcan fallos, y que posteriormente con pruebas de integracion con tecnicas de reconocimiento puedan encontrarse un conjunto de estados mas amplio que no hallan identificado en las pruebas exploratorias manuales.
 
+### [Video](https://uniandes-my.sharepoint.com/:v:/g/personal/ah_salazar_uniandes_edu_co/EbhuX8MQ8hZKotC0kg0Qcs8Bgov_QQqaK2Vj1Hj5mV6bQA?e=eIDKhp)
+
 ### Estrategia de pruebas
 - [Documento de la estrategia](https://uniandes-my.sharepoint.com/:w:/r/personal/ah_salazar_uniandes_edu_co/_layouts/15/Doc.aspx?sourcedoc=%7BB4BDE382-B008-4B73-9CE7-0F090F7DDC43%7D&file=estrategia-pruebas.docx&action=default&mobileredirect=true)
 
