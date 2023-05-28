@@ -29,6 +29,9 @@ Se determino que para la primer semana era conveniente realizar pruebas explorat
 ### Retrospectiva DAKI
 - [Padlet retrospectiva DAKI](https://padlet.com/ahsalazar/retrospectiva-daki-louenzj1emp3ra1z)
 
+### Video de la estrategia de la semana 8
+- [Video Estrategia]()
+
 ## Instrucciones de instalacion y ejecucion
 En esta ocasion se ejecutara Ghost 3.41.1 instalado en el localhost para tener a facilidad de reiniciarlo en caso de que haya un bloqueo por defecto del numero de logins en una hora (100 veces en una hora). Verifique la ejecucion de Ghost antes de realizar las pruebas. 
 
