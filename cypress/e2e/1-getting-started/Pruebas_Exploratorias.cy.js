@@ -190,6 +190,122 @@ describe("Gestion de usuarios de Ghost (suspension y reactivacion)", () => {
       cy.contains("Staff").should("be.visible").click();
       //Screenshot de la pagina de staff reactivado
       cy.screenshot("pruebas_exploratorias/usuarios/unsuspend/6_staff_reactivado");
+
+
+      describe("Gestion de contenido", () => {
+        beforeEach(() => {
+          // Realizar el inicio de sesión antes de cada escenario
+          cy.visit(URL_GHOST_SIGNIN);
+          cy.get("#ember8").clear().type("lasherone@hotmail.com");
+          cy.get("#ember10").clear().type("Pruebas12345");
+          //Screenshot de inicio de sesion de usuario admin
+          cy.screenshot("pruebas_exploratorias/contenido/inicio_sesion_admin");
+          cy.get("#ember12").click();
+        });
+      
+        describe("Como usuario puedo publicar un post", () => {
+          beforeEach(() => {
+            // Navegar a la página de gestión de contenido
+            cy.visit(URL_GHOST_BASE + "/#/posts");
+            
+          });
+      
+          it("Publicar un post", () => {
+            
+            // Busca un post y se clickea para empezar a actualizarlo
+            cy.get(selectors.pickPost).last().click();
+      
+            cy.wait(3000);
+      
+      
+            // Despliega las opciones de publicar
+            cy.get(selectors.publishMenu) // Verificar que el elemento exista en el DOM
+              .children("div")
+              .children("span")
+              .scrollIntoView() // Desplazar al elemento al viewport si está oculto
+              .click({ force: true });
+            
+      
+            cy.wait(3000);
+      
+            // Busca el botón 'Publish' y lo clickea para guardar el nuevo post
+            cy.get(selectors.publishButton).scrollIntoView().click({ force: true });
+            
+      
+            cy.wait(3000);
+      
+            // Navegar a la página de gestión de contenido
+            cy.visit(URL_GHOST_BASE + "/#/posts?type=published");
+            
+      
+            cy.wait(3000);
+      
+            // Verificar que el post se haya publicado correctamente
+            cy.get("span").contains("few seconds");
+          });
+        });
+      });
+      
+      
+      
+      
+      
+      describe("Create a public tag", () => {
+        beforeEach(() => {
+          cy.visit(URL_GHOST_SIGNIN);
+          cy.wait(2000);
+          cy.get(".email").type(GHOST_USERNAME);
+          cy.get(".password").type(GHOST_PASSWORD);
+          cy.get(".login").click();
+          cy.wait(3000);
+        });
+      
+        it("Test create a new tag", () => {
+          cy.get("a[href='#/tags/']").click();
+          cy.get("a[href='#/tags/new/']").click();
+          cy.get("#tag-name").type("Nombre");
+          cy.get("#tag-description").type("Descripción");
+              
+      
+          expect(true).to.equal(true);
+        });
+      });
+      
+      describe("Gestion de usuarios de Ghost (eliminar un usuario))", () => {
+        describe("Como usuario admin puedo eliminar un usuario", () => {
+          before(() => {
+            cy.visit(URL_GHOST_SIGNIN);
+            cy.get("#ember8").type("lasherone@hotmail.com");
+            cy.get("#ember10").type("Pruebas12345");
+            cy.get("#ember12").click();
+          });
+      
+          it("Delete user", () => {
+            cy.contains("Staff").should("be.visible").click();
+            
+            cy.contains("Ghost").should("be.visible").click();
+            
+            cy.get("button.user-actions-cog")
+              .should("exist") // Verificar que el elemento exista en el DOM
+              .scrollIntoView() // Desplazar al elemento al viewport si está oculto
+              .focus() // Hacer foco en el elemento
+              .click();
+            
+            cy.get("button.delete").should("be.visible").invoke("click");
+            
+            cy.get("button.gh-btn-red")
+              .contains("Delete")
+              .click();
+              cy.get("#ember1437")
+              .click();
+            
+          });
+        });
+        
+      });
+        
+      
+      
     });
   });
 });
