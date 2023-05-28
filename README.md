@@ -96,6 +96,28 @@ En esta ocasion se ejecutara Ghost 3.41.1 instalado en el localhost para tener a
 | Gestion de tags  | Funcional                          | Negativo                                       | Correccion de una descripcion corta de un Tag |
 
 
+### Ejecución VRT
+
+Instrucciones para las pruebas
+
+1. Ubicarse en la carpeta vrt_ypress
+2. Ejecutar el comando
+```cmd
+npm install
+```
+3. Posteriormente:
+```cmd
+node index.js
+```
+Se obtendra una carpeta ```./results```  con las comparaciones de las imagenes de cada paso.
+
+```
+Es importante que si abre el proyecto con herramientas como Visual Studio Code, abra directamente la carpeta vrt_ypress para que la ejecución tome correctamente los paths relativos del código. 
+
+Cada vez que vaya a ejecutar el proyecto, es importante que borre el archivo html que se haya generado de ejecuciones anteriores apra evitar errores.
+```
+
+
 ## Semana 7
 
 En esta semana se utilizarán tres estrategias de generacion de datos: A Priori, Aleatoria y Pseudo Aleatoria.
