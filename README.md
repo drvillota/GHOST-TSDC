@@ -14,15 +14,87 @@ Bienvenido al repositorio del proyecto de automatización de pruebas de la aplic
 
 > Reporte de incidentes: [https://github.com/drvillota/GHOST-TSDC/issues](https://github.com/drvillota/GHOST-TSDC/issues) 
 
-# Generacion de Datos
+# Estrategia de pruebas
 ## Semana 8
+
+Se realizaron pruebas exploratorias manuales y mejoramiento del set de pruebas VRT que en esta ocasion genera el reporte HTML comparando screenshots de Ghost 3.41.1 con Ghost 4.44.
+Se determino que para la primer semana era conveniente realizar pruebas exploratorias para encontrar diversos estados de las funcionalidades que pudieran tener entradas que produzcan fallos, y que posteriormente con pruebas de integracion con tecnicas de reconocimiento puedan encontrarse un conjunto de estados mas amplio que no hallan identificado en las pruebas exploratorias manuales.
 
 ### Estrategia de pruebas
 - [Documento de la estrategia](https://uniandes-my.sharepoint.com/:w:/r/personal/ah_salazar_uniandes_edu_co/_layouts/15/Doc.aspx?sourcedoc=%7BB4BDE382-B008-4B73-9CE7-0F090F7DDC43%7D&file=estrategia-pruebas.docx&action=default&mobileredirect=true)
+
 ### Inventario de pruebas exploratorias
 - [Inventario de pruebas exploratorias](https://uniandes-my.sharepoint.com/:x:/r/personal/ah_salazar_uniandes_edu_co/_layouts/15/Doc.aspx?sourcedoc=%7BB27F7CE9-5E67-4CAC-86AF-E0F308EB7F46%7D&file=inventario-pruebas-exploratorias.xlsx&action=default&mobileredirect=true)
+
 ### Retrospectiva DAKI
 - [Padlet retrospectiva DAKI](https://padlet.com/ahsalazar/retrospectiva-daki-louenzj1emp3ra1z)
+
+## Instrucciones de instalacion y ejecucion
+En esta ocasion se ejecutara Ghost 3.41.1 instalado en el localhost para tener a facilidad de reiniciarlo en caso de que haya un bloqueo por defecto del numero de logins en una hora (100 veces en una hora). Verifique la ejecucion de Ghost antes de realizar las pruebas. 
+
+### 0. Preparacion del Ghost
+ 1. Instale Ghost como contenedor docker version 3.41.1 por ejemplo en el entorno linux: `sudo docker create --name mi-ghost -p 2368:2368 ghost:3.41.1`
+ 2. Abra el navegador y confirme la creacion de un nuevo usuario con los siguientes datos **email**: `lasherone@hotmail.com` **password**: `Pruebas12345`
+
+### 1. Instalacion de las herramientas de prueba y del proxy CORS
+ 1. Clone este repositorio con `git clone https://github.com/drvillota/GHOST-TSDC.git`.
+ 2. Ingrese a la carpeta clonada: `cd GHOST-TSDC`.
+ 3. Ingrese a la carpeta de cypress: `cd cypress`.
+ 4. Recuerde descargar las dependencias de cypress ejecutando: `npm install`.
+ 5. Ahora ingrese a la carpeta del proxy cors: `cd ../http-proxy-middleware`.
+ 6. Ahora instale las dependencias del proxy: `npm install`.
+
+### 2. Ejecucion del proxy CORS para Mockaroo
+ 1. Verifique que continua en la carpeta de `http-proxy-middleware`, sino dirijase a ella.
+ 2. Ejecute el proxy con: `node .\index.js`.
+ 3. Mantenga esta terminal abierta mientras se realiza la prueba. No cierre esta ventana ni detenga la aplicacion o no podrá recibir los datos provenientes de la API de Mockaroo.
+
+### 3. Ejecucion de las pruebas en Cypress
+ 1. Abra otra terminal y dirijase a la carpeta donde clonó el proyecto `cd GHOST-TSDC`.
+ 2. Estando dentro de la carpeta clonada dirijase a la carpeta de cypress: `cd cypress`.
+ 4. Ejecute Cypress: `npx cypress open`.
+ 5. En la ventana emergente con el icono **CY** (Cypress) seleccione `E2E Testing`.
+ 6. Ahora seleccione el navegador a usar en las pruebas, en nuestro caso `Chrome`.
+ 7. Presione el boton `Start E2E Testing in Chrome`.
+ 8. En el Navegador Chrome emergente de clic en el enlace `Specs` del menu lateral izquierdo.
+ 9. Dirijase a la carpeta `cypress/e2e` y luego a `generacion-datos`
+ 10. Seleccione alguna de las carpetas segun la estrategia de generacion de datos (por ejemplo `a-priori`) y busque alguno de los archivos `*.spec.cy.js` para iniciar las pruebas.
+ 11. Verifique en el panel lateral izquierdo la ejecucion de las pruebas. Espere a que terminen las pruebas. En caso de error por numero de logins en 1 hora debera reiniciar el servidor Ghost.
+ 12. Cierre la aplicacion Cypress con `file->exit` o en la terminal presionando `Control-C.`
+ 13. Por ultimo cierre la terminal donde esta ejecutandose `http-proxy-middleware`, o en su defecto presione `Control-C` para detener el proxy.
+
+### Opcional: Revision de los screenshots de las pruebas
+ 1. Estando aun dentro de la carpeta de Cypress, ingrese a la carpeta screenshots: `cd cypress\screenshots`.
+ 2. Liste las carpetas con `ls` o con `dir`, alli observará las carpetas segun la estrategia de generacion de datos (apriori, aleatoria, pseudoaleatoria).
+ 3. Ahora ingrese a alguna de las carpetas, por ejemplo apriori: `cd apriori`.
+ 4. Ahora liste las subcarpetas ya que estan segun la hora y fecha en que se realizaron: `ls` `dir`.
+ 5. Ahora ingrese a la subcarpeta deseada con `cd subcarpeta` y liste los screenshots contenidos con `ls`o `dir` segun el sistema utilizado (Windows, Linux, MacOS).
+
+### Listado de escenarios (Semana 1 de la estrategia de pruebas)
+
+| Funcionalidad    | Requerimiento<br>(Func., No func.) | Tipo de escenario<br>(Positivo, Negativo, Mix) | Nombre del escenario                          |
+| ---------------- | ---------------------------------- | ---------------------------------------------- | --------------------------------------------- |
+| Gestion de posts | Funcional                          | Positivo                                       | Crear un post                                 |
+| Gestion de posts | Funcional                          | Positivo                                       | Editar un post                                |
+| Gestion de posts | Funcional                          | Positivo                                       | Eliminar un post                              |
+| Gestion de posts | Funcional                          |                                                | Publicar un post                              |
+| Gestion de tags  | Funcional                          | Positivo                                       | Crear un tag                                  |
+| Gestion de tags  | Funcional                          | Positivo                                       | Editar un tag                                 |
+| Gestion de tags  | Funcional                          | Positivo                                       | Eliminar un tag                               |
+| Gestion de tags  | Funcional                          |                                                | Crear un tag publico                          |
+| Gestion de Staff | Funcional                          | Positivo                                       | Invitar un colaborador                        |
+| Gestion de Staff | Funcional                          | Positivo                                       | Suspender un usuario                          |
+| Gestion de Staff | Funcional                          | Positivo                                       | Revocar una invitacion                        |
+| Gestion de Staff | Funcional                          |                                                | Eliminar un usuario                           |
+| Gestion de Pages | Funcional                          | Positivo                                       | Crear un page                                 |
+| Gestion de Pages | Funcional                          | Positivo                                       | Editar un page                                |
+| Gestion de Pages | Funcional                          | Positivo                                       | Eliminar un page                              |
+| Gestion de Pages | Funcional                          |                                                | Publicar un page                              |
+| Gestion de Posts | Funcional                          | Negativo                                       | Crear un Post con titulo largo                |
+| Gestion de Pages | Funcional                          | Negativo                                       | Crear un Page con titulo largo                |
+| Gestion de tags  | Funcional                          | Negativo                                       | Correccion de un nombre corto de un Tag       |
+| Gestion de tags  | Funcional                          | Negativo                                       | Correccion de una descripcion corta de un Tag |
+
 
 ## Semana 7
 
