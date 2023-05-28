@@ -77,19 +77,19 @@ En esta ocasion se ejecutara Ghost 3.41.1 instalado en el localhost para tener a
 | Gestion de posts | Funcional                          | Positivo                                       | Crear un post                                 |
 | Gestion de posts | Funcional                          | Positivo                                       | Editar un post                                |
 | Gestion de posts | Funcional                          | Positivo                                       | Eliminar un post                              |
-| Gestion de posts | Funcional                          |                                                | Publicar un post                              |
+| Gestion de posts | Funcional                          | Positivo                                       | Publicar un post                              |
 | Gestion de tags  | Funcional                          | Positivo                                       | Crear un tag                                  |
 | Gestion de tags  | Funcional                          | Positivo                                       | Editar un tag                                 |
 | Gestion de tags  | Funcional                          | Positivo                                       | Eliminar un tag                               |
-| Gestion de tags  | Funcional                          |                                                | Crear un tag publico                          |
+| Gestion de tags  | Funcional                          | Positivo                                       | Crear un tag publico                          |
 | Gestion de Staff | Funcional                          | Positivo                                       | Invitar un colaborador                        |
 | Gestion de Staff | Funcional                          | Positivo                                       | Suspender un usuario                          |
 | Gestion de Staff | Funcional                          | Positivo                                       | Revocar una invitacion                        |
-| Gestion de Staff | Funcional                          |                                                | Eliminar un usuario                           |
+| Gestion de Staff | Funcional                          | Positivo                                       | Eliminar un usuario                           |
 | Gestion de Pages | Funcional                          | Positivo                                       | Crear un page                                 |
 | Gestion de Pages | Funcional                          | Positivo                                       | Editar un page                                |
 | Gestion de Pages | Funcional                          | Positivo                                       | Eliminar un page                              |
-| Gestion de Pages | Funcional                          |                                                | Publicar un page                              |
+| Gestion de Pages | Funcional                          | Positivo                                       | Publicar un page                              |
 | Gestion de Posts | Funcional                          | Negativo                                       | Crear un Post con titulo largo                |
 | Gestion de Pages | Funcional                          | Negativo                                       | Crear un Page con titulo largo                |
 | Gestion de tags  | Funcional                          | Negativo                                       | Correccion de un nombre corto de un Tag       |
