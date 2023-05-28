@@ -21,6 +21,8 @@ Bienvenido al repositorio del proyecto de automatización de pruebas de la aplic
 - [Documento de la estrategia](https://uniandes-my.sharepoint.com/:w:/r/personal/ah_salazar_uniandes_edu_co/_layouts/15/Doc.aspx?sourcedoc=%7BB4BDE382-B008-4B73-9CE7-0F090F7DDC43%7D&file=estrategia-pruebas.docx&action=default&mobileredirect=true)
 ### Inventario de pruebas exploratorias
 - [Inventario de pruebas exploratorias](https://uniandes-my.sharepoint.com/:x:/r/personal/ah_salazar_uniandes_edu_co/_layouts/15/Doc.aspx?sourcedoc=%7BB27F7CE9-5E67-4CAC-86AF-E0F308EB7F46%7D&file=inventario-pruebas-exploratorias.xlsx&action=default&mobileredirect=true)
+### Retrospectiva DAKI
+- [Padlet retrospectiva DAKI](https://padlet.com/ahsalazar/retrospectiva-daki-louenzj1emp3ra1z)
 
 ## Semana 7
 
